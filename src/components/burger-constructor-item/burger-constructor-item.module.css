@@ -1,0 +1,11 @@
+.container_constructor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 48px;
+}
+.constructor_image {
+  width: 80px;
+  height: 40px;
+}
