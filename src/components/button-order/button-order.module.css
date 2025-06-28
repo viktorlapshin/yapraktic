@@ -12,44 +12,6 @@
   background: #3333ff80;
   color: white;
   border-radius: 63px;
-}
-
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modalContent {
-  background: #1c1c21;
-  padding: 32px 24px;
-  border-radius: 16px;
-  position: relative;
-  min-width: 300px;
-  max-width: 90vw;
-  padding: 50px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  font-family: Jet Brains Mono;
-}
-
-.closeButton {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: aliceblue;
+  font-family: "Jet Brains Mono";
+  font-size: medium;
 }

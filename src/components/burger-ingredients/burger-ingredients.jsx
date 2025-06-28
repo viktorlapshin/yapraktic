@@ -88,14 +88,31 @@ export const BurgerIngredients = ({ ingredients }) => {
               src={selectedIngredient.image_large}
               alt={selectedIngredient.name}
             />
+            <p style={{textAlign:"center", fontSize:"large"}}>{selectedIngredient.name}</p>
             <div className={styles.details_list}>
+              <div className={styles.item}>
+                <div className={styles.header}>Калории, ккал</div>
+                <div className={styles.value}>
+                  {selectedIngredient.calories}
+                </div>
+              </div>
+              <div className={styles.item}>
+                <div className={styles.header}>Белки, г</div>
+                <div className={styles.value}>
+                  {selectedIngredient.proteins}
+                </div>
+              </div>
+              <div className={styles.item}>
+                <div className={styles.header}>Жиры, г</div>
+                <div className={styles.value}>{selectedIngredient.fat}</div>
+              </div>
+              <div className={styles.item}>
+                <div className={styles.header}>Углеводы, г</div>
+                <div className={styles.value}>
+                  {selectedIngredient.carbohydrates}
+                </div>
+              </div>
             </div>
-            <p>{selectedIngredient.name}</p>
-            <p>Калории:{selectedIngredient.calories}</p>
-            <p>Белки:{selectedIngredient.proteins}</p>
-            <p>Жиры:{selectedIngredient.fat}</p>
-            <p>Угдеводы:{selectedIngredient.carbohydrates}</p>
-
           </div>
         )}
       </Modal>

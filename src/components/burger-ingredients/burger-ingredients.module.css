@@ -31,6 +31,33 @@
 .ingredient_list_point {
   flex: 0 1 48%;
   box-sizing: border-box;
-  border: solid 1px white;
   text-align: center;
+}
+
+.details_list {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  color: rgb(133, 133, 173);
+}
+
+.item {
+  flex: 1; 
+  text-align: center; 
+  position: relative;
+}
+
+.item:first-child {
+  border-left: none;
+}
+
+.header {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.value {
+  font-size: 16px;
+  font-weight: bold;
 }

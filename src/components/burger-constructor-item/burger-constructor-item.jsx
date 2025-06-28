@@ -1,17 +1,29 @@
 import React from "react";
 import { ingredientPropType } from "@utils/prop-types.js";
 import styles from "./burger-constructor-item.module.css";
+import {
+  DeleteIcon,
+  LockIcon,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import * as PropTypes from "prop-types";
 
-export const BurgerConstructorItem = ({ ingredient }) => {
+export const BurgerConstructorItem = ({ ingredient, disabled }) => {
   return (
     <div className={styles.container_constructor}>
       <img className={styles.constructor_image} src={ingredient.image} alt="" />
-      <span style={{ width: "254px" }}>{ingredient.name}</span>
-      <h3 style={{ width: "50px" }}>{ingredient.price}</h3>
+      <span className={styles.name}>{ingredient.name}</span>
+      <h3 className={styles.price}>
+        <span>{ingredient.price}</span> <CurrencyIcon />
+      </h3>
+      <button style={{ backgroundColor: "transparent" }} disabled={disabled}>
+        {disabled ? <LockIcon /> : <DeleteIcon />}
+      </button>
     </div>
   );
 };
 
 BurgerConstructorItem.propTypes = {
   ingredient: ingredientPropType,
+  disabled: PropTypes.bool,
 };

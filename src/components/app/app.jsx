@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./app.module.css";
 import { ingredients } from "@utils/ingredients.js";
 import { BurgerIngredients } from "@components/burger-ingredients/burger-ingredients.jsx";
@@ -6,6 +6,25 @@ import { BurgerConstructor } from "@components/burger-constructor/burger-constru
 import { AppHeader } from "@components/app-header/app-header.jsx";
 
 export const App = () => {
+  // const [ingredients, setIngredients] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [isError, setIsError] = useState(false);
+
+  // useEffect(() => {
+  //   fetch("https://")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setIngredients(data);
+  //       setIsLoading(false);
+  //     })
+  //     .catch(() => {
+  //       setIsError(true);
+  //       setIsLoading(false);
+  //     });
+  // }, []);
+
+  // console.log({ ingredients, isLoading, isError });
+
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -14,10 +33,12 @@ export const App = () => {
       >
         Соберите бургер
       </h1>
-      <main className={`${styles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor ingredients={ingredients} />
-      </main>
+      {/* {isLoading || isError ? null : ( */}
+        <main className={`${styles.main} pl-5 pr-5`}>
+          <BurgerIngredients ingredients={ingredients} />
+          <BurgerConstructor ingredients={ingredients} />
+        </main>
+      {/* )} */}
     </div>
   );
 };
