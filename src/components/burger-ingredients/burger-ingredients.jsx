@@ -88,10 +88,12 @@ export const BurgerIngredients = ({ ingredients }) => {
               src={selectedIngredient.image_large}
               alt={selectedIngredient.name}
             />
-            <p style={{textAlign:"center", fontSize:"large"}}>{selectedIngredient.name}</p>
+            <p style={{ textAlign: "center", fontSize: "large" }}>
+              {selectedIngredient.name}
+            </p>
             <div className={styles.details_list}>
               <div className={styles.item}>
-                <div className={styles.header}>Калории, ккал</div>
+                <div className={styles.header}>Калории,ккал</div>
                 <div className={styles.value}>
                   {selectedIngredient.calories}
                 </div>

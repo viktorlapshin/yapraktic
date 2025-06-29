@@ -6,22 +6,26 @@ import { BurgerConstructor } from "@components/burger-constructor/burger-constru
 import { AppHeader } from "@components/app-header/app-header.jsx";
 
 export const App = () => {
-  // const [ingredients, setIngredients] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [isError, setIsError] = useState(false);
+  const [ingredients, setIngredients] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-  // useEffect(() => {
-  //   fetch("https://")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setIngredients(data);
-  //       setIsLoading(false);
-  //     })
-  //     .catch(() => {
-  //       setIsError(true);
-  //       setIsLoading(false);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch("https://norma.nomoreparties.space/api/ingredients")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          setIngredients(data.data);
+        } else {
+          setIsError(true);
+        }
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsError(true);
+        setIsLoading(false);
+      });
+  }, []);
 
   // console.log({ ingredients, isLoading, isError });
 
@@ -33,12 +37,12 @@ export const App = () => {
       >
         Соберите бургер
       </h1>
-      {/* {isLoading || isError ? null : ( */}
+      {isLoading || isError ? null : (
         <main className={`${styles.main} pl-5 pr-5`}>
           <BurgerIngredients ingredients={ingredients} />
           <BurgerConstructor ingredients={ingredients} />
         </main>
-      {/* )} */}
+      )}
     </div>
   );
 };

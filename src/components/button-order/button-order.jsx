@@ -4,19 +4,6 @@ import styles from "./button-order.module.css";
 import * as PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-// const Modal = ({ onClose, children }) => {
-//   return ReactDOM.createPortal(
-//     <div className={styles.modalOverlay}>
-//       <div className={styles.modalContent}>
-//         <button className={styles.closeButton} onClick={onClose}>
-//           ✕
-//         </button>
-//         {children}
-//       </div>
-//     </div>,
-//     document.getElementById("modal-root")
-//   );
-// };
 
 export const ButtonOrder = ({ text }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,8 +13,8 @@ export const ButtonOrder = ({ text }) => {
 
   return (
     <div className={styles.order_block}>
-      <h1>
-        610 <CurrencyIcon />
+      <h1 style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <span>610</span> <CurrencyIcon />
       </h1>
       <button className={styles.order_button} onClick={handleOpenModal}>
         {text}

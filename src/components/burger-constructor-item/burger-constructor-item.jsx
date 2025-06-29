@@ -16,8 +16,11 @@ export const BurgerConstructorItem = ({ ingredient, disabled }) => {
       <h3 className={styles.price}>
         <span>{ingredient.price}</span> <CurrencyIcon />
       </h3>
-      <button style={{ backgroundColor: "transparent" }} disabled={disabled}>
-        {disabled ? <LockIcon /> : <DeleteIcon />}
+      <button
+        style={{ backgroundColor: "transparent", border: "none" }}
+        disabled={disabled}
+      >
+        {disabled ? <LockIcon color="disabled" /> : <DeleteIcon />}
       </button>
     </div>
   );
