@@ -37,6 +37,6 @@ export const Modal = ({ isOpen, onClose, children }) => {
         {children}
       </div>
     </div>,
-    document.getElementById("modal-root")
+    document.getElementById("modal-root"),
   );
 };
