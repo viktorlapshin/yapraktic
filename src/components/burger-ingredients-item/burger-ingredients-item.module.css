@@ -1,0 +1,11 @@
+.container_ingridient {
+  padding: 10px;
+  position: relative;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
