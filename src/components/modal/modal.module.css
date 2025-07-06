@@ -9,27 +9,10 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  font-family: "Jet Brains Mono";
 }
 
 .modal {
   background: #1c1c21;
-  padding: 56px;
-  border-radius: 16px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: "Jet Brains Mono";
-  gap: 20px;
-}
-
-.close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 48px;
-  cursor: pointer;
-  color: white;
+  border-radius: 32px;
 }

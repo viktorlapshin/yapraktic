@@ -31,12 +31,9 @@ export const Modal = ({ isOpen, onClose, children }) => {
           e.stopPropagation();
         }}
       >
-        <button className={styles.close} onClick={onClose}>
-          ×
-        </button>
         {children}
       </div>
     </div>,
-    document.getElementById("modal-root"),
+    document.getElementById("modal-root")
   );
 };

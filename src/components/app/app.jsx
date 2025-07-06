@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styles from "./app.module.css";
-import { ingredients } from "@utils/ingredients.js";
 import { BurgerIngredients } from "@components/burger-ingredients/burger-ingredients.jsx";
 import { BurgerConstructor } from "@components/burger-constructor/burger-constructor.jsx";
 import { AppHeader } from "@components/app-header/app-header.jsx";
@@ -12,7 +11,13 @@ export const App = () => {
 
   useEffect(() => {
     fetch("https://norma.nomoreparties.space/api/ingredients")
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Произошла ошибка");
+        }
+
+        return response.json();
+      })
       .then((data) => {
         if (data.success) {
           setIngredients(data.data);
@@ -26,8 +31,6 @@ export const App = () => {
         setIsLoading(false);
       });
   }, []);
-
-  // console.log({ ingredients, isLoading, isError });
 
   return (
     <div className={styles.app}>

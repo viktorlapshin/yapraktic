@@ -1,16 +1,6 @@
 .order_block {
   display: flex;
-  gap: 60px;
-  justify-content: end;
-  margin-top: 32px;
-}
-
-.order_button {
-  width: 215px;
-  height: 64px;
-  background: #3333ff80;
-  color: white;
-  border-radius: 63px;
-  font-family: "Jet Brains Mono";
-  font-size: medium;
+  margin-top: 40px;
+  justify-content: flex-end;
+  gap: 40px;
 }

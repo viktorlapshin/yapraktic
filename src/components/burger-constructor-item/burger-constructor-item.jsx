@@ -8,19 +8,23 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import * as PropTypes from "prop-types";
 
-export const BurgerConstructorItem = ({ ingredient, disabled }) => {
+export const BurgerConstructorItem = ({
+  ingredient,
+  disabled,
+  additionalText,
+}) => {
   return (
     <div className={styles.container_constructor}>
       <img className={styles.constructor_image} src={ingredient.image} alt="" />
-      <span className={styles.name}>{ingredient.name}</span>
+      <span className={styles.name}>
+        {ingredient.name}
+        {additionalText && ` ${additionalText}`}
+      </span>
       <h3 className={styles.price}>
         <span>{ingredient.price}</span> <CurrencyIcon />
       </h3>
-      <button
-        style={{ backgroundColor: "transparent", border: "none" }}
-        disabled={disabled}
-      >
-        {disabled ? <LockIcon color="disabled" /> : <DeleteIcon />}
+      <button className={styles.button_delete} disabled={disabled}>
+        {disabled ? <LockIcon type="disabled" /> : <DeleteIcon />}
       </button>
     </div>
   );
@@ -29,4 +33,5 @@ export const BurgerConstructorItem = ({ ingredient, disabled }) => {
 BurgerConstructorItem.propTypes = {
   ingredient: ingredientPropType,
   disabled: PropTypes.bool,
+  additionalText: PropTypes.string,
 };
