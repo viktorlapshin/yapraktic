@@ -1,0 +1,47 @@
+.details {
+  margin: 40px;
+  display: flex;
+  align-content: space-around;
+  flex-direction: column;
+  align-items: center;
+}
+.details_list {
+  display: flex;
+  justify-content: space-between;
+  color: rgb(133, 133, 173);
+}
+.item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  gap: 36px;
+  width: 580px;
+  height: 64px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  align-content: center;
+}
+
+.image {
+  width: 520px;
+  height: 240px;
+}
+
+.close_button {
+  background: transparent;
+  border: none;
+}
+.ingredient_name {
+  width: 520px;
+  margin-bottom: 20px;
+}
+
+.ingredient_name p {
+  text-align: center;
+  font-size: larger;
+}

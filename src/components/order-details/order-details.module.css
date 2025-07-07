@@ -1,0 +1,37 @@
+.order_block {
+  display: flex;
+  width: 720px;
+  height: 718px;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.order_number {
+  width: 520px;
+  height: 120px;
+  font-size: 160px;
+  font-family: Iceland;
+  font-weight: 200;
+  margin: 0;
+  text-align: center;
+}
+
+.check_mark {
+  width: 120px;
+  height: 120px;
+}
+
+.modal_text {
+  margin: 0;
+  color: #8585ad;
+}
+
+.close_button {
+  width: 640px;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 60px;
+}

@@ -1,0 +1,6 @@
+.order_block {
+  display: flex;
+  margin-top: 40px;
+  justify-content: flex-end;
+  gap: 40px;
+}
