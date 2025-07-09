@@ -15,7 +15,8 @@
 }
 
 .ingredients_block {
-  overflow-y: auto;
+  overflow-y: scroll;
+  max-height: 800px;
 }
 
 .ingredients_list {

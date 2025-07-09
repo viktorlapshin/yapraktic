@@ -8,8 +8,20 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { useSelector } from "react-redux";
+import {
+  bunIngredientsSelector,
+  ingredientsSelector,
+} from "../../services/reducers/ingredients-slice";
+
 export const ButtonOrder = ({ text }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const ingredients = useSelector(ingredientsSelector);
+  const bun = useSelector(bunIngredientsSelector);
+
+  const totalPrice =
+    ingredients.reduce((sum, item) => sum + item.price, 0) +
+    (bun ? bun.price * 2 : 0);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -17,7 +29,7 @@ export const ButtonOrder = ({ text }) => {
   return (
     <div className={styles.order_block}>
       <h1>
-        <span>610</span> <CurrencyIcon />
+        <span>{totalPrice}</span> <CurrencyIcon />
       </h1>
       <Button onClick={handleOpenModal} htmlType="button">
         {text}

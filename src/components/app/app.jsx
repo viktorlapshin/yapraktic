@@ -3,11 +3,15 @@ import styles from "./app.module.css";
 import { BurgerIngredients } from "@components/burger-ingredients/burger-ingredients.jsx";
 import { BurgerConstructor } from "@components/burger-constructor/burger-constructor.jsx";
 import { AppHeader } from "@components/app-header/app-header.jsx";
+import { useSelector } from "react-redux";
+import { ingredientsSelector } from "../../services/reducers/ingredients-slice";
 
 export const App = () => {
   const [ingredients, setIngredients] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+
+  const constructorIngredients = useSelector(ingredientsSelector);
 
   useEffect(() => {
     fetch("https://norma.nomoreparties.space/api/ingredients")
@@ -43,7 +47,7 @@ export const App = () => {
       {isLoading || isError ? null : (
         <main className={`${styles.main} pl-5 pr-5`}>
           <BurgerIngredients ingredients={ingredients} />
-          <BurgerConstructor ingredients={ingredients} />
+          <BurgerConstructor ingredients={constructorIngredients} />
         </main>
       )}
     </div>
