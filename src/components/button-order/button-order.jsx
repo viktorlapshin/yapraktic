@@ -16,6 +16,10 @@ import {
 
 export const ButtonOrder = ({ text }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [orderNumber, setOrderNumber] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const ingredients = useSelector(ingredientsSelector);
   const bun = useSelector(bunIngredientsSelector);
 
@@ -23,19 +27,63 @@ export const ButtonOrder = ({ text }) => {
     ingredients.reduce((sum, item) => sum + item.price, 0) +
     (bun ? bun.price * 2 : 0);
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const ingredientIds = [
+    ...(bun ? [bun._id] : []),
+    ...ingredients.map(item => item._id),
+    ...(bun ? [bun._id] : []),
+  ];
+
+  const handleOrder = async () => {
+    setIsLoading(true);
+    setError(null);
+    setOrderNumber(null);
+    setIsModalOpen(true);
+
+    try {
+      const response = await fetch("https://norma.nomoreparties.space/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ingredients: ingredientIds }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Ошибка при оформлении заказа");
+      }
+
+      setOrderNumber(data.order.number);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setOrderNumber(null);
+    setError(null);
+  };
 
   return (
     <div className={styles.order_block}>
       <h1>
         <span>{totalPrice}</span> <CurrencyIcon />
       </h1>
-      <Button onClick={handleOpenModal} htmlType="button">
-        {text}
+      <Button
+        onClick={handleOrder}
+        htmlType="button"
+        disabled={ingredientIds.length < 3 || isLoading}
+      >
+        {isLoading ? "Оформляем..." : text}
       </Button>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <OrderDetails />
+        {isLoading && <p>Оформляем заказ...</p>}
+        {error && <p style={{ color: "red" }}>Ошибка: {error}</p>}
+        {orderNumber && <OrderDetails orderNumber={orderNumber} />}
       </Modal>
     </div>
   );

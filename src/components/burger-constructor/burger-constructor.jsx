@@ -40,7 +40,11 @@ const BunConstructorIngredientsItem = ({ type, ingredient }) => {
     <div
       ref={drop}
       style={{
-        backgroundColor: isOver ? "green" : canDrop ? "orange" : undefined,
+        border: isOver
+          ? "2px solid green"
+          : canDrop
+            ? "2px dashed orange"
+            : undefined,
       }}
       className={styles[`${type}_bun`]}
     >
@@ -174,10 +178,10 @@ export const BurgerConstructor = ({ ingredients }) => {
             <div
               className={styles.filling}
               style={{
-                backgroundColor: isOver
-                  ? "green"
+                border: isOver
+                  ? "2px solid green"
                   : canDrop
-                    ? "orange"
+                    ? "2px dashed orange"
                     : undefined,
               }}
             >
