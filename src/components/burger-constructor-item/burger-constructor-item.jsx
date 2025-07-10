@@ -7,7 +7,7 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import * as PropTypes from "prop-types";
-import { useDrop } from 'react-dnd'
+import { useDrop } from "react-dnd";
 
 export const BurgerConstructorItem = ({
   ingredient,

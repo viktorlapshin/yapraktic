@@ -10,6 +10,7 @@ export const OrderDetails = ({ orderNumber, onClose }) => {
         className={styles.close_button}
         onClick={onClose}
         aria-label="Закрыть"
+        type="button"
       >
         <CloseIcon />
       </button>
@@ -36,5 +37,5 @@ export const OrderDetails = ({ orderNumber, onClose }) => {
 
 OrderDetails.propTypes = {
   orderNumber: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onClose: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
 };

@@ -7,11 +7,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
-import { ingredientsSelector, bunIngredientsSelector } from "../../services/reducers/ingredients-slice";
+import {
+  ingredientsSelector,
+  bunIngredientsSelector,
+} from "../../services/reducers/ingredients-slice";
 
 export const BurgerIngredienstItem = ({ ingredient }) => {
   const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
-    type: ingredient.type === 'bun' ? 'bun' : 'ingredient',
+    type: ingredient.type === "bun" ? "bun" : "ingredient",
     item: ingredient,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -22,10 +25,10 @@ export const BurgerIngredienstItem = ({ ingredient }) => {
   const bun = useSelector(bunIngredientsSelector);
 
   let count = 0;
-  if (ingredient.type === 'bun') {
+  if (ingredient.type === "bun") {
     count = bun && bun._id === ingredient._id ? 2 : 0;
   } else {
-    count = allIngredients.filter(item => item._id === ingredient._id).length;
+    count = allIngredients.filter((item) => item._id === ingredient._id).length;
   }
 
   if (isDragging) {

@@ -29,7 +29,7 @@ export const ButtonOrder = ({ text }) => {
 
   const ingredientIds = [
     ...(bun ? [bun._id] : []),
-    ...ingredients.map(item => item._id),
+    ...ingredients.map((item) => item._id),
     ...(bun ? [bun._id] : []),
   ];
 
@@ -40,13 +40,16 @@ export const ButtonOrder = ({ text }) => {
     setIsModalOpen(true);
 
     try {
-      const response = await fetch("https://norma.nomoreparties.space/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ingredients: ingredientIds }),
-      });
+      const response = await fetch(
+        "https://norma.nomoreparties.space/api/orders",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ingredients: ingredientIds }),
+        }
+      );
 
       const data = await response.json();
 
@@ -83,7 +86,9 @@ export const ButtonOrder = ({ text }) => {
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         {isLoading && <p>Оформляем заказ...</p>}
         {error && <p style={{ color: "red" }}>Ошибка: {error}</p>}
-        {orderNumber && <OrderDetails orderNumber={orderNumber} />}
+        {orderNumber && (
+          <OrderDetails orderNumber={orderNumber} onClose={handleCloseModal} />
+        )}
       </Modal>
     </div>
   );

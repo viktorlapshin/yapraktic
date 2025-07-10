@@ -22,7 +22,7 @@ export const BurgerIngredients = ({ ingredients }) => {
   const dispatch = useDispatch();
 
   const handleOpenModal = (ingredient) => {
-    dispatch(addIngredient(ingredient)); // Добавляем в Redux
+    //dispatch(addIngredient(ingredient)); // Добавляем в Redux
     setSelectedIngredient(ingredient); // Открываем модалку
   };
 
@@ -157,7 +157,10 @@ export const BurgerIngredients = ({ ingredients }) => {
 
       <Modal isOpen={!!selectedIngredient} onClose={handleCloseModal}>
         {selectedIngredient && (
-          <IngredientsDetails selectedIngredient={selectedIngredient} />
+          <IngredientsDetails
+            selectedIngredient={selectedIngredient}
+            onClose={handleCloseModal}
+          />
         )}
       </Modal>
     </section>
