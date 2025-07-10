@@ -7,7 +7,7 @@
 }
 
 .burger_consructor_list {
-  width: 536px;
+  width: 550px;
   height: 656px;
 }
 
@@ -29,13 +29,14 @@
 }
 
 .top_bun {
-  max-width: 536px;
+  /* max-width: 536px; */
   height: 80px;
   background: var(--background-element);
   border-radius: 80px 80px 40px 40px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 25px;
 }
 
 .filling {
@@ -46,10 +47,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 25px;
 }
 
 .bottom_bun {
-  max-width: 536px;
+  /* max-width: 536px; */
+  margin-left: 25px;
   height: 80px;
   background: var(--background-element);
   border-radius: 40px 40px 80px 80px;

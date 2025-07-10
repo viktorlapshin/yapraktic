@@ -5,7 +5,7 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDrag } from "react-dnd";
+import { useDrag, DragPreviewImage } from "react-dnd";
 import { useSelector } from "react-redux";
 import {
   ingredientsSelector,
@@ -13,7 +13,7 @@ import {
 } from "../../services/reducers/ingredients-slice";
 
 export const BurgerIngredienstItem = ({ ingredient }) => {
-  const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
+  const [_, drag, dragPreview] = useDrag(() => ({
     type: ingredient.type === "bun" ? "bun" : "ingredient",
     item: ingredient,
     collect: (monitor) => ({
@@ -31,23 +31,23 @@ export const BurgerIngredienstItem = ({ ingredient }) => {
     count = allIngredients.filter((item) => item._id === ingredient._id).length;
   }
 
-  if (isDragging) {
-    return (
-      <div ref={dragPreview}>
-        <img src={ingredient.image} alt="" />
-      </div>
-    );
-  }
-
   return (
-    <div ref={drag} className={styles.container_ingridient}>
-      {count > 0 && <Counter count={count} extraClass="" />}
-      <img src={ingredient.image} alt={ingredient.name} />
-      <h3 className={styles.price}>
-        {ingredient.price} <CurrencyIcon />
-      </h3>
-      <p>{ingredient.name}</p>
-    </div>
+    <>
+      <DragPreviewImage
+        // https://github.com/react-dnd/react-dnd/issues/3609
+        key={+new Date()}
+        src={ingredient.image}
+        connect={dragPreview}
+      />
+      <div ref={drag} className={styles.container_ingridient}>
+        {count > 0 && <Counter count={count} extraClass="" />}
+        <img src={ingredient.image} alt={ingredient.name} />
+        <h3 className={styles.price}>
+          {ingredient.price} <CurrencyIcon />
+        </h3>
+        <p>{ingredient.name}</p>
+      </div>
+    </>
   );
 };
 
