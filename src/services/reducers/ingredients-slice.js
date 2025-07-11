@@ -1,4 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
+import { BASE_URL } from "../../constants";
+import { checkResponse } from "../../utils/check-response";
 
 const initialState = {
   allIngredients: [],
@@ -9,15 +12,9 @@ const initialState = {
 };
 
 export const getIngredients = createAsyncThunk(
-  `ingredientsSlice/getIngredients`,
+  "ingredientsSlice/getIngredients",
   async () => {
-    const response = await fetch("https://norma.nomoreparties.space/api/ingredients");
-    
-    if (!response.ok) {
-      throw new Error("Произошла ошибка");
-    }
-
-    return await response.json();
+    return fetch(`${BASE_URL}/ingredients`).then(checkResponse);
   }
 );
 
@@ -25,11 +22,21 @@ export const ingredientsSlice = createSlice({
   name: "ingredientsSlice",
   initialState,
   reducers: {
-    addIngredient: (state, action) => {
-      if (action.payload.type === "bun") {
-        state.bunIngredient = action.payload;
-      } else {
-        state.ingredients.push({ uniqueId: +new Date(), ...action.payload });
+    addIngredient: {
+      reducer: (state, action) => {
+        if (action.payload.type === "bun") {
+          state.bunIngredient = action.payload;
+        } else {
+          state.ingredients.push(action.payload);
+        }
+      },
+      prepare: (ingredient) => {
+        return {
+          payload: {
+            ...ingredient,
+            uniqueId: uuidv4()
+          }
+        };
       }
     },
     removeIngredient: (state, action) => {
@@ -42,41 +49,31 @@ export const ingredientsSlice = createSlice({
       const draggedItem = state.ingredients[dragIndex];
       state.ingredients.splice(dragIndex, 1);
       state.ingredients.splice(hoverIndex, 0, draggedItem);
-    },
+    }
   },
-  extraReducers: ({ addCase }) => {
-    addCase(getIngredients.pending, (state, action) => {
-      state.isLoading = true
-    })
-
-    addCase(getIngredients.fulfilled, (state, action) => {
-      state.allIngredients = action.payload.data;
-      state.isLoading = false
-    })
-
-    addCase(getIngredients.rejected, (state, action) => {
-      state.isError = true
-      state.isLoading = false
-    })
+  extraReducers: (builder) => {
+    builder
+      .addCase(getIngredients.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(getIngredients.fulfilled, (state, action) => {
+        state.allIngredients = action.payload.data;
+        state.isLoading = false;
+      })
+      .addCase(getIngredients.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
   }
 });
 
-export const { addIngredient, removeIngredient, moveIngredient } =
-  ingredientsSlice.actions;
+export const { addIngredient, removeIngredient, moveIngredient } = ingredientsSlice.actions;
 
-export const bunIngredientsSelector = (store) =>
-  store.ingredientsSlice.bunIngredient;
-
-export const allIngredientsSelector = (store) =>
-  store.ingredientsSlice.allIngredients;
-
-export const ingredientsSelector = (store) =>
-  store.ingredientsSlice.ingredients;
-
-export const isLoadingSelector = (store) =>
-  store.ingredientsSlice.isLoading;
-
-export const isErrorSelector = (store) =>
-  store.ingredientsSlice.isError;
+export const bunIngredientsSelector = (store) => store.ingredientsSlice.bunIngredient;
+export const allIngredientsSelector = (store) => store.ingredientsSlice.allIngredients;
+export const ingredientsSelector = (store) => store.ingredientsSlice.ingredients;
+export const isLoadingSelector = (store) => store.ingredientsSlice.isLoading;
+export const isErrorSelector = (store) => store.ingredientsSlice.isError;
 
 export default ingredientsSlice.reducer;

@@ -35,8 +35,8 @@ export const App = () => {
       </h1>
       {isLoading || isError ? null : (
         <main className={`${styles.main} pl-5 pr-5`}>
-          <BurgerIngredients ingredients={allIngredients} />
-          <BurgerConstructor ingredients={constructorIngredients} />
+          <BurgerIngredients />
+          <BurgerConstructor />
         </main>
       )}
     </div>

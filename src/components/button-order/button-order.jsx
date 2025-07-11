@@ -7,12 +7,13 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import { useSelector } from "react-redux";
 import {
   bunIngredientsSelector,
   ingredientsSelector,
 } from "../../services/reducers/ingredients-slice";
+import { BASE_URL } from "../../constants";
+import { checkResponse } from "../../utils/api"; 
 
 export const ButtonOrder = ({ text }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,22 +41,15 @@ export const ButtonOrder = ({ text }) => {
     setIsModalOpen(true);
 
     try {
-      const response = await fetch(
-        "https://norma.nomoreparties.space/api/orders",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ingredients: ingredientIds }),
-        }
-      );
+      const response = await fetch(`${BASE_URL}/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ingredients: ingredientIds }),
+      });
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || "Ошибка при оформлении заказа");
-      }
+      const data = await checkResponse(response); // Используем функцию
 
       setOrderNumber(data.order.number);
     } catch (err) {
