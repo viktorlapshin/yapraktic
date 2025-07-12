@@ -7,15 +7,17 @@
 }
 
 .burger_consructor_list {
+  width: 550px;
   height: 656px;
 }
 
 .list_food {
-  height: 500px;
+  height: auto;
   overflow-y: auto;
   padding: 0;
   margin: 0;
   list-style-type: none;
+  max-height: 480px;
 }
 
 .point_list_food {
@@ -27,9 +29,35 @@
 }
 
 .top_bun {
-  margin-left: 30px;
+  /* max-width: 536px; */
+  height: 80px;
+  background: var(--background-element);
+  border-radius: 80px 80px 40px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 25px;
+}
+
+.filling {
+  height: 80px;
+  background: var(--background-element);
+  border-radius: 40px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 25px;
 }
 
 .bottom_bun {
-  margin-left: 30px;
+  /* max-width: 536px; */
+  margin-left: 25px;
+  height: 80px;
+  background: var(--background-element);
+  border-radius: 40px 40px 80px 80px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
