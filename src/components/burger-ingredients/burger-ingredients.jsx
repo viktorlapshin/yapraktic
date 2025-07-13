@@ -1,14 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BurgerIngredienstItem } from "../burger-ingredients-item/burger-ingredients-item";
-import { Modal } from "../modal/modal";
-import { IngredientsDetails } from "../ingredients-details/ingredients-details";
 import { allIngredientsSelector } from "../../services/reducers/ingredients-slice";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const BurgerIngredients = () => {
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
   const [currentTab, setCurrentTab] = useState("bun");
 
   const bunRef = useRef(null);
@@ -18,12 +16,13 @@ export const BurgerIngredients = () => {
 
   const ingredients = useSelector(allIngredientsSelector);
 
-  const handleOpenModal = (ingredient) => {
-    setSelectedIngredient(ingredient);
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleCloseModal = () => {
-    setSelectedIngredient(null);
+  const handleOpenModal = (ingredient) => {
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { backgroundLocation: location },
+    });
   };
 
   const scrollToSection = (type) => {
@@ -126,12 +125,6 @@ export const BurgerIngredients = () => {
             ))}
         </ul>
       </div>
-
-      <Modal isOpen={!!selectedIngredient} onClose={handleCloseModal}>
-        {selectedIngredient && (
-          <IngredientsDetails selectedIngredient={selectedIngredient} onClose={handleCloseModal} />
-        )}
-      </Modal>
     </section>
   );
 };
