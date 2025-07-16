@@ -34,6 +34,7 @@ export const ForgotTwo = () => {
   );
 
   return (
+    <div className={styles.centered_container}>
     <div className={styles.forgot_two_block}>
       <h1>Восстановление пароля</h1>
       <Input
@@ -60,6 +61,7 @@ export const ForgotTwo = () => {
       <p>
         Вспонили пароль? <Link to="/login">Войти</Link>
       </p>
+    </div>
     </div>
   );
 };

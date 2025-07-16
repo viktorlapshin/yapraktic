@@ -26,8 +26,9 @@ export const Forgot = () => {
   }, [])
 
   return (
+    <div className={styles.centered_container}>
     <div className={styles.forgot_block}>
-      <h1>Восстановление пароля</h1>
+      <h2>Восстановление пароля</h2>
       <EmailInput
         placeholder="Укажите e-mail"
         value={email}
@@ -45,6 +46,7 @@ export const Forgot = () => {
       <p>
         Вспонили пароль? <Link to="/login">Войти</Link>
       </p>
+    </div>
     </div>
   );
 };

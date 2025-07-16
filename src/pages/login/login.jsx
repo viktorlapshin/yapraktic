@@ -14,8 +14,9 @@ export const Login = () => {
   const dispatch = useDispatch()
   
   return (
+  <div className={styles.centered_container}>
   <div className={styles.login_block}>
-    <h1>Вход</h1>
+    <h2>Вход</h2>
     <EmailInput value={email} 
         onChange={(e) => {
           setEmail(e.target.value);
@@ -29,5 +30,6 @@ export const Login = () => {
     }}>Войти</Button>
     <p>Вы - новый пользователь? <Link to="/register">Зарегистрироваться</Link></p>
     <p>Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link></p>
+  </div>
   </div>
 )};

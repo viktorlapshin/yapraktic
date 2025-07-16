@@ -1,19 +1,32 @@
 .profile {
-display: flex;
-justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 60px;
 }
 
 .left_block {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 24px;
-    font-family: "Jet Brains Mono", serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+  font-family: "Jet Brains Mono", serif;
+  width: 320px;
 }
+
 .right_block {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 24px;
-    font-family: "Jet Brains Mono", serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+  font-family: "Jet Brains Mono", serif;
+}
+
+.button_block {
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  align-items: center;
+  align-self: flex-end;
 }
