@@ -32,7 +32,8 @@
 		"react-dom": "^18.2.0",
 		"react-redux": "^9.2.0",
 		"react-router-dom": "^7.6.3",
-		"redux": "^5.0.1"
+		"redux": "^5.0.1",
+		"universal-cookie": "^8.0.1"
 	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^6.6.3",

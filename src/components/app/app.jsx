@@ -18,6 +18,12 @@ import {
 import { Home } from "../../pages/home/home";
 import { Modal } from "../modal/modal";
 import { IngredientDetailsPage } from "../../pages/ingredient-details-page/ingredient-details-page";
+import { Login } from "../../pages/login/login";
+import { Register } from "../../pages/register/register"
+import { Forgot } from "../../pages/forgot-password/forgot-password";
+import { ForgotTwo } from "../../pages/forgot-password-two/forgot-password-two";
+import { Profile } from "../../pages/profile/profile"
+import { Link } from "react-router-dom";
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -25,7 +31,6 @@ export const App = () => {
   const isError = useSelector(isErrorSelector);
 
   const location = useLocation();
-  // Получаем backgroundLocation из state, если он есть
   const backgroundLocation =
     location.state && location.state.backgroundLocation;
 
@@ -36,11 +41,12 @@ export const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <h1
+      {/* <h1
         className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}
       >
         Соберите бургер
-      </h1>
+      </h1> */}
+      {/* <Link to='/login'>login</Link> */}
       {isLoading || isError ? null : (
         <>
           <Routes location={backgroundLocation || location}>
@@ -50,8 +56,14 @@ export const App = () => {
               element={<IngredientDetailsPage />}
             />
           </Routes>
-
-          {/* Модалка поверх Home */}
+          <Routes>
+            <Route path="/login" element={<Login />} /> {/* Новый маршрут */}
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<Forgot />} />
+            <Route path="/forgot-password-two" element={<ForgotTwo />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+          
           {backgroundLocation && (
             <Routes>
               <Route path="/ingredients/:id" element={<ModalWrapper />} />
@@ -63,7 +75,6 @@ export const App = () => {
   );
 };
 
-// Обёртка для модалки, чтобы не дублировать логику
 function ModalWrapper() {
   const navigate = useNavigate();
   const { id } = useParams();

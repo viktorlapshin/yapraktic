@@ -37,13 +37,25 @@ export const BurgerIngredients = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!bunRef.current || !mainRef.current || !sauceRef.current || !containerRef.current) return;
+      if (
+        !bunRef.current ||
+        !mainRef.current ||
+        !sauceRef.current ||
+        !containerRef.current
+      )
+        return;
 
       const containerTop = containerRef.current.getBoundingClientRect().top;
 
-      const bunTop = Math.abs(bunRef.current.getBoundingClientRect().top - containerTop);
-      const mainTop = Math.abs(mainRef.current.getBoundingClientRect().top - containerTop);
-      const sauceTop = Math.abs(sauceRef.current.getBoundingClientRect().top - containerTop);
+      const bunTop = Math.abs(
+        bunRef.current.getBoundingClientRect().top - containerTop
+      );
+      const mainTop = Math.abs(
+        mainRef.current.getBoundingClientRect().top - containerTop
+      );
+      const sauceTop = Math.abs(
+        sauceRef.current.getBoundingClientRect().top - containerTop
+      );
 
       const min = Math.min(bunTop, mainTop, sauceTop);
 
@@ -67,13 +79,25 @@ export const BurgerIngredients = () => {
     <section className={styles.burger_ingredients}>
       <nav>
         <ul className={styles.menu}>
-          <Tab value="bun" active={currentTab === "bun"} onClick={() => scrollToSection("bun")}>
+          <Tab
+            value="bun"
+            active={currentTab === "bun"}
+            onClick={() => scrollToSection("bun")}
+          >
             Булки
           </Tab>
-          <Tab value="main" active={currentTab === "main"} onClick={() => scrollToSection("main")}>
+          <Tab
+            value="main"
+            active={currentTab === "main"}
+            onClick={() => scrollToSection("main")}
+          >
             Начинки
           </Tab>
-          <Tab value="sauce" active={currentTab === "sauce"} onClick={() => scrollToSection("sauce")}>
+          <Tab
+            value="sauce"
+            active={currentTab === "sauce"}
+            onClick={() => scrollToSection("sauce")}
+          >
             Соусы
           </Tab>
         </ul>
