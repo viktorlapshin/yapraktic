@@ -21,7 +21,7 @@ import { IngredientDetailsPage } from "../../pages/ingredient-details-page/ingre
 import { Login } from "../../pages/login/login";
 import { Register } from "../../pages/register/register"
 import { Forgot } from "../../pages/forgot-password/forgot-password";
-import { ForgotTwo } from "../../pages/forgot-password-two/forgot-password-two";
+import { ForgotTwo } from "../../pages/reset-password/reset-password";
 import { Profile } from "../../pages/profile/profile"
 import { Link } from "react-router-dom";
 
@@ -60,7 +60,7 @@ export const App = () => {
             <Route path="/login" element={<Login />} /> {/* Новый маршрут */}
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<Forgot />} />
-            <Route path="/forgot-password-two" element={<ForgotTwo />} />
+            <Route path="/reset-password" element={<ForgotTwo />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
           
