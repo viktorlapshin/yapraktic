@@ -5,7 +5,8 @@ import { BASE_URL } from "../../constants";
 
 const initialState = {
     passwordResetStatus: 'pending',
-    passwordRecoveryStatus: 'pending'
+    passwordRecoveryStatus: 'pending',
+    authStatus: 'pending'
 }
 
 export const passwordReset = createAsyncThunk(
@@ -25,9 +26,19 @@ export const passwordRecovery = createAsyncThunk(
 export const login = createAsyncThunk(
   "auth/login",
   async (params) => {
-    return fetch(`${BASE_URL}/login`, { method: "POST", body: JSON.stringify(params) }).then(checkResponse);
+    // const response = await fetch(`${BASE_URL}/login`, { method: "POST", body: JSON.stringify(params) })
+
+    // checkResponse(response)
+
+    // const data = await response.json()
+
+    return {data: 'test'}
   }
 );
+
+export const checkAuth = createAsyncThunk("auth/checkAuth", () => {
+  throw new Error('')
+})
 
 export const authSlice = createSlice({
     initialState,
@@ -59,11 +70,28 @@ export const authSlice = createSlice({
         addCase(passwordRecovery.rejected, (state, action) => {
             state.passwordRecoveryStatus = "rejected"
         })
+
+        addCase(login.fulfilled, (state, action) => {
+            state.authStatus = "fulfilled"
+        })
+
+        addCase(login.rejected, (state, action) => {
+            state.authStatus = "rejected"
+        })
+
+        addCase(checkAuth.fulfilled, (state, action) => {
+            state.authStatus = "fulfilled"
+        })
+
+        addCase(checkAuth.rejected, (state, action) => {
+            state.authStatus = "rejected"
+        })
     }
 })
 
 export const passwordResetStatusSelector = (state) => state.auth.passwordResetStatus
-export const passwordRecoveryStatusSelector = (state) => state.auth.    passwordRecoveryStatus
+export const passwordRecoveryStatusSelector = (state) => state.auth.passwordRecoveryStatus
+export const authStatusSelector = (state) => state.auth.authStatus
 // POST https://norma.nomoreparties.space/api/auth/login - эндпоинт для авторизации.
 // POST https://norma.nomoreparties.space/api/auth/register - эндпоинт для регистрации пользователя.
 // POST https://norma.nomoreparties.space/api/auth/logout - эндпоинт для выхода из системы.

@@ -19,11 +19,13 @@ import { Home } from "../../pages/home/home";
 import { Modal } from "../modal/modal";
 import { IngredientDetailsPage } from "../../pages/ingredient-details-page/ingredient-details-page";
 import { Login } from "../../pages/login/login";
-import { Register } from "../../pages/register/register"
+import { Register } from "../../pages/register/register";
 import { Forgot } from "../../pages/forgot-password/forgot-password";
 import { ForgotTwo } from "../../pages/reset-password/reset-password";
-import { Profile } from "../../pages/profile/profile"
+import { Profile } from "../../pages/profile/profile";
 import { Link } from "react-router-dom";
+import { checkAuth } from "../../services/reducers/auth-slice";
+import { ProtectedRoute } from "../protected-route/protected-route";
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -35,6 +37,7 @@ export const App = () => {
     location.state && location.state.backgroundLocation;
 
   useEffect(() => {
+    dispatch(checkAuth());
     dispatch(getIngredients());
   }, [dispatch]);
 
@@ -50,10 +53,21 @@ export const App = () => {
       {isLoading || isError ? null : (
         <>
           <Routes location={backgroundLocation || location}>
-            <Route path="/" element={<Home />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/ingredients/:id"
-              element={<IngredientDetailsPage />}
+              element={
+                <ProtectedRoute>
+                  <IngredientDetailsPage />
+                </ProtectedRoute>
+              }
             />
           </Routes>
           <Routes>
@@ -61,9 +75,16 @@ export const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<Forgot />} />
             <Route path="/reset-password" element={<ForgotTwo />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
-          
+
           {backgroundLocation && (
             <Routes>
               <Route path="/ingredients/:id" element={<ModalWrapper />} />
