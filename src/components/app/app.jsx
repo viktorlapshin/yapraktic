@@ -55,19 +55,11 @@ export const App = () => {
           <Routes location={backgroundLocation || location}>
             <Route
               path="/"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
+              element={<Home />}
             />
             <Route
               path="/ingredients/:id"
-              element={
-                <ProtectedRoute>
-                  <IngredientDetailsPage />
-                </ProtectedRoute>
-              }
+              element={<IngredientDetailsPage />}
             />
           </Routes>
           <Routes>
@@ -83,6 +75,7 @@ export const App = () => {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<h1 style={{textAlign: "center"}}>Страница не найдена. Ошибка 404.</h1>} />
           </Routes>
 
           {backgroundLocation && (

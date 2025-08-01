@@ -1,24 +1,54 @@
 import React from "react";
-import {
-  Button,
-  EmailInput,
-  Input,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./register.module.css";
+import { useDispatch } from "react-redux";
+import { register } from "../../services/reducers/auth-slice";
 
-export const Register = () => (
-  <div className={styles.centered_container}>
-    <div className={styles.register_block}>
-      <h2>Регистрация</h2>
-      <Input placeholder="Имя" />
-      <EmailInput />
-      <PasswordInput />
-      <Button>Зарегистрироваться</Button>
-      <p>
-        Уже зарегистрированы? <Link to="/login">Войти</Link>
-      </p>
+export const Register = () => {
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleRegister = () => {
+    dispatch(register({ name, email, password }))
+      .unwrap()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        // Здесь можно обработать ошибку, например, показать сообщение
+        alert("Ошибка регистрации: " + (err?.message || "Попробуйте снова"));
+      });
+  };
+
+  return (
+    <div className={styles.centered_container}>
+      <div className={styles.register_block}>
+        <h2>Регистрация</h2>
+        <Input
+          placeholder="Имя"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+        <EmailInput
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <PasswordInput
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+        <Button onClick={handleRegister}>
+          Зарегистрироваться
+        </Button>
+        <p>
+          Уже зарегистрированы? <Link to="/login">Войти</Link>
+        </p>
+      </div>
     </div>
-  </div>
-);
+  );
+};

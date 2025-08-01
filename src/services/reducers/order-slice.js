@@ -1,24 +1,32 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../constants";
+import { checkResponse } from "../../utils/api";
+
+const sleep = (ms) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
 
 export const sendOrder = createAsyncThunk(
   "order/sendOrder",
   async (ingredientIds, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${BASE_URL}/orders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ingredients: ingredientIds }),
-      });
-      const data = await response.json();
+      const [response] = await Promise.all([
+        fetch(`${BASE_URL}/orders`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ingredients: ingredientIds }),
+        }),
+        sleep(15_000),
+      ]);
 
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || "Ошибка при оформлении заказа");
-      }
+      const data = await checkResponse(response);
 
-      return data.order.number; 
+      return data.order.number;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -56,6 +64,10 @@ const orderSlice = createSlice({
       });
   },
 });
+
+export const orderNumberSelector = (state) => state.order.orderNumber
+export const isLoadingOrderSelector = (state) => state.order.loading
+export const errorOrderSelector = (state) => state.order.error
 
 export const { clearOrder } = orderSlice.actions;
 

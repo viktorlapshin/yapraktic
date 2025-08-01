@@ -13,7 +13,7 @@ export const Login = () => {
   const [password, setPassword] = React.useState("");
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className={styles.centered_container}>
@@ -33,8 +33,8 @@ export const Login = () => {
         />
         <Button
           onClick={() => {
-            dispatch(login({ email, password })).then(() => {
-              navigate('/')
+            dispatch(login({ email, password })).unwrap().then(() => {
+              navigate("/");
             });
           }}
         >

@@ -3,6 +3,7 @@ import { ingredientsSlice } from './reducers/ingredients-slice';
 import ingredientsReducer from "./reducers/ingredients-slice";
 import orderReducer from "./reducers/order-slice";
 import { authSlice } from './reducers/auth-slice';
+import { profileSlice } from './reducers/profile-slice';
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     ingredientsSlice: ingredientsSlice.reducer,
     order: orderReducer,
     ingredients: ingredientsReducer,
+    profile: profileSlice.reducer
   },
 })
