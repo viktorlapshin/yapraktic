@@ -32,14 +32,18 @@ export const Login = () => {
           }}
         />
         <Button
+          htmlType="button"
           onClick={() => {
-            dispatch(login({ email, password })).unwrap().then(() => {
-              navigate("/");
-            });
+            dispatch(login({ email, password }))
+              .unwrap()
+              .then(() => {
+                navigate("/");
+              });
           }}
         >
           Войти
         </Button>
+
         <p>
           Вы - новый пользователь?{" "}
           <Link to="/register">Зарегистрироваться</Link>

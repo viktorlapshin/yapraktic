@@ -1,5 +1,10 @@
 import React from "react";
-import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Button,
+  EmailInput,
+  Input,
+  PasswordInput,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./register.module.css";
 import { useDispatch } from "react-redux";
@@ -20,7 +25,6 @@ export const Register = () => {
         navigate("/");
       })
       .catch((err) => {
-        // Здесь можно обработать ошибку, например, показать сообщение
         alert("Ошибка регистрации: " + (err?.message || "Попробуйте снова"));
       });
   };
@@ -32,17 +36,14 @@ export const Register = () => {
         <Input
           placeholder="Имя"
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
         />
-        <EmailInput
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
+        <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} />
         <PasswordInput
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={handleRegister}>
+        <Button htmlType="submit" onClick={handleRegister}>
           Зарегистрироваться
         </Button>
         <p>
