@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/reducers/auth-slice";
 import { getProfile, editProfile } from "../../services/reducers/profile-slice";
 import { userSelector } from "../../services/reducers/profile-slice";
- 
+
 export const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
 
@@ -72,7 +72,14 @@ export const Profile = () => {
         </Tab>
         <p>В этом разделе вы можете изменить свои персональные данные</p>
       </div>
-      <div className={styles.right_block}>
+      <form
+        className={styles.right_block}
+        onSubmit={(event) => {
+          event.preventDefault();
+
+          dispatch(editProfile({ name, login, password }));
+        }}
+      >
         <Input
           placeholder="Имя"
           value={name}
@@ -102,16 +109,10 @@ export const Profile = () => {
             >
               Отмена
             </Link>
-            <Button
-              onClick={() => {
-                dispatch(editProfile({ name, login, password }));
-              }}
-            >
-              Сохранить
-            </Button>
+            <Button htmlType="submit">Сохранить</Button>
           </div>
         )}
-      </div>
+      </form>
     </div>
   );
 };

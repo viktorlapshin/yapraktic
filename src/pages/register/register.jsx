@@ -31,7 +31,11 @@ export const Register = () => {
 
   return (
     <div className={styles.centered_container}>
-      <div className={styles.register_block}>
+      <form className={styles.register_block} onSubmit={(event) => {
+        event.preventDefault()
+
+        handleRegister()
+      }}>
         <h2>Регистрация</h2>
         <Input
           placeholder="Имя"
@@ -43,13 +47,13 @@ export const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button htmlType="submit" onClick={handleRegister}>
+        <Button htmlType="submit">
           Зарегистрироваться
         </Button>
         <p>
           Уже зарегистрированы? <Link to="/login">Войти</Link>
         </p>
-      </div>
+      </form>
     </div>
   );
 };

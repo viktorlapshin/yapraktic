@@ -17,7 +17,18 @@ export const Login = () => {
 
   return (
     <div className={styles.centered_container}>
-      <div className={styles.login_block}>
+      <form
+        className={styles.login_block}
+        onSubmit={(event) => {
+          event.preventDefault()
+
+          dispatch(login({ email, password }))
+            .unwrap()
+            .then(() => {
+              navigate("/");
+            });
+        }}
+      >
         <h2>Вход</h2>
         <EmailInput
           value={email}
@@ -31,19 +42,7 @@ export const Login = () => {
             setPassword(e.target.value);
           }}
         />
-        <Button
-          htmlType="button"
-          onClick={() => {
-            dispatch(login({ email, password }))
-              .unwrap()
-              .then(() => {
-                navigate("/");
-              });
-          }}
-        >
-          Войти
-        </Button>
-
+        <Button htmlType="submit">Войти</Button>
         <p>
           Вы - новый пользователь?{" "}
           <Link to="/register">Зарегистрироваться</Link>
@@ -51,7 +50,7 @@ export const Login = () => {
         <p>
           Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link>
         </p>
-      </div>
+      </form>
     </div>
   );
 };

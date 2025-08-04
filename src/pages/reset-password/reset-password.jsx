@@ -35,33 +35,34 @@ export const ForgotTwo = () => {
 
   return (
     <div className={styles.centered_container}>
-    <div className={styles.forgot_two_block}>
-      <h1>Восстановление пароля</h1>
-      <Input
-        placeholder="Введите новый пароль"
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      <Input
-        placeholder="Введите код из письма"
-        value={token}
-        onChange={(e) => {
-          setToken(e.target.value);
-        }}
-      />
-      <Button
-        onClick={() => {
+      <form
+        className={styles.forgot_two_block}
+        onSubmit={(event) => {
+          event.preventDefault();
+
           dispatch(passwordRecovery({ password, token }));
         }}
       >
-        Сохранить
-      </Button>
-      <p>
-        Вспонили пароль? <Link to="/login">Войти</Link>
-      </p>
-    </div>
+        <h1>Восстановление пароля</h1>
+        <Input
+          placeholder="Введите новый пароль"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+        <Input
+          placeholder="Введите код из письма"
+          value={token}
+          onChange={(e) => {
+            setToken(e.target.value);
+          }}
+        />
+        <Button htmlType="submit">Сохранить</Button>
+        <p>
+          Вспонили пароль? <Link to="/login">Войти</Link>
+        </p>
+      </form>
     </div>
   );
 };
