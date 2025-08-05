@@ -1,44 +1,110 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import styles from "./app.module.css";
-import { BurgerIngredients } from "@components/burger-ingredients/burger-ingredients.jsx";
-import { BurgerConstructor } from "@components/burger-constructor/burger-constructor.jsx";
-import { AppHeader } from "@components/app-header/app-header.jsx";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  ingredientsSelector,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import { IngredientsDetails } from "../ingredients-details/ingredients-details";
+import styles from "./app.module.css";
+import { AppHeader } from "@components/app-header/app-header.jsx";
+import {
   getIngredients,
   isLoadingSelector,
   isErrorSelector,
-  allIngredientsSelector,
 } from "../../services/reducers/ingredients-slice";
+import { Home } from "../../pages/home/home";
+import { Modal } from "../modal/modal";
+import { IngredientDetailsPage } from "../../pages/ingredient-details-page/ingredient-details-page";
+import { Login } from "../../pages/login/login";
+import { Register } from "../../pages/register/register";
+import { Forgot } from "../../pages/forgot-password/forgot-password";
+import { ForgotTwo } from "../../pages/reset-password/reset-password";
+import { Profile } from "../../pages/profile/profile";
+import { Link } from "react-router-dom";
+import { checkAuth } from "../../services/reducers/auth-slice";
+import { ProtectedRoute } from "../protected-route/protected-route";
 
 export const App = () => {
   const dispatch = useDispatch();
-
-  const allIngredients = useSelector(allIngredientsSelector);
-  const constructorIngredients = useSelector(ingredientsSelector);
   const isLoading = useSelector(isLoadingSelector);
   const isError = useSelector(isErrorSelector);
 
+  const location = useLocation();
+  const backgroundLocation =
+    location.state && location.state.backgroundLocation;
+
   useEffect(() => {
+    dispatch(checkAuth());
     dispatch(getIngredients());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <h1
+      {/* <h1
         className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}
       >
         Соберите бургер
-      </h1>
+      </h1> */}
+      {/* <Link to='/login'>login</Link> */}
       {isLoading || isError ? null : (
-        <main className={`${styles.main} pl-5 pr-5`}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </main>
+        <>
+          <Routes location={backgroundLocation || location}>
+            <Route
+              path="/"
+              element={<Home />}
+            />
+            <Route
+              path="/ingredients/:id"
+              element={<IngredientDetailsPage />}
+            />
+          </Routes>
+          <Routes>
+            <Route path="/login" element={<Login />} /> {/* Новый маршрут */}
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<Forgot />} />
+            <Route path="/reset-password" element={<ForgotTwo />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<h1 style={{textAlign: "center"}}>Страница не найдена. Ошибка 404.</h1>} />
+          </Routes>
+
+          {backgroundLocation && (
+            <Routes>
+              <Route path="/ingredients/:id" element={<ModalWrapper />} />
+            </Routes>
+          )}
+        </>
       )}
     </div>
   );
 };
+
+function ModalWrapper() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const ingredients = useSelector((state) => state.ingredients.allIngredients);
+  const ingredient = ingredients.find((item) => item._id === id);
+
+  const handleClose = () => navigate(-1);
+
+  if (!ingredient) return null;
+
+  return (
+    <Modal isOpen={true} onClose={handleClose}>
+      <IngredientsDetails
+        selectedIngredient={ingredient}
+        onClose={handleClose}
+      />
+    </Modal>
+  );
+}

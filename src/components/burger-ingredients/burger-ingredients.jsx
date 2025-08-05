@@ -1,14 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BurgerIngredienstItem } from "../burger-ingredients-item/burger-ingredients-item";
-import { Modal } from "../modal/modal";
-import { IngredientsDetails } from "../ingredients-details/ingredients-details";
 import { allIngredientsSelector } from "../../services/reducers/ingredients-slice";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const BurgerIngredients = () => {
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
   const [currentTab, setCurrentTab] = useState("bun");
 
   const bunRef = useRef(null);
@@ -18,12 +16,13 @@ export const BurgerIngredients = () => {
 
   const ingredients = useSelector(allIngredientsSelector);
 
-  const handleOpenModal = (ingredient) => {
-    setSelectedIngredient(ingredient);
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleCloseModal = () => {
-    setSelectedIngredient(null);
+  const handleOpenModal = (ingredient) => {
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { backgroundLocation: location },
+    });
   };
 
   const scrollToSection = (type) => {
@@ -38,13 +37,25 @@ export const BurgerIngredients = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!bunRef.current || !mainRef.current || !sauceRef.current || !containerRef.current) return;
+      if (
+        !bunRef.current ||
+        !mainRef.current ||
+        !sauceRef.current ||
+        !containerRef.current
+      )
+        return;
 
       const containerTop = containerRef.current.getBoundingClientRect().top;
 
-      const bunTop = Math.abs(bunRef.current.getBoundingClientRect().top - containerTop);
-      const mainTop = Math.abs(mainRef.current.getBoundingClientRect().top - containerTop);
-      const sauceTop = Math.abs(sauceRef.current.getBoundingClientRect().top - containerTop);
+      const bunTop = Math.abs(
+        bunRef.current.getBoundingClientRect().top - containerTop
+      );
+      const mainTop = Math.abs(
+        mainRef.current.getBoundingClientRect().top - containerTop
+      );
+      const sauceTop = Math.abs(
+        sauceRef.current.getBoundingClientRect().top - containerTop
+      );
 
       const min = Math.min(bunTop, mainTop, sauceTop);
 
@@ -68,13 +79,25 @@ export const BurgerIngredients = () => {
     <section className={styles.burger_ingredients}>
       <nav>
         <ul className={styles.menu}>
-          <Tab value="bun" active={currentTab === "bun"} onClick={() => scrollToSection("bun")}>
+          <Tab
+            value="bun"
+            active={currentTab === "bun"}
+            onClick={() => scrollToSection("bun")}
+          >
             Булки
           </Tab>
-          <Tab value="main" active={currentTab === "main"} onClick={() => scrollToSection("main")}>
+          <Tab
+            value="main"
+            active={currentTab === "main"}
+            onClick={() => scrollToSection("main")}
+          >
             Начинки
           </Tab>
-          <Tab value="sauce" active={currentTab === "sauce"} onClick={() => scrollToSection("sauce")}>
+          <Tab
+            value="sauce"
+            active={currentTab === "sauce"}
+            onClick={() => scrollToSection("sauce")}
+          >
             Соусы
           </Tab>
         </ul>
@@ -126,12 +149,6 @@ export const BurgerIngredients = () => {
             ))}
         </ul>
       </div>
-
-      <Modal isOpen={!!selectedIngredient} onClose={handleCloseModal}>
-        {selectedIngredient && (
-          <IngredientsDetails selectedIngredient={selectedIngredient} onClose={handleCloseModal} />
-        )}
-      </Modal>
     </section>
   );
 };

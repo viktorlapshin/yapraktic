@@ -7,22 +7,35 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   bunIngredientsSelector,
   ingredientsSelector,
 } from "../../services/reducers/ingredients-slice";
-import { BASE_URL } from "../../constants";
-import { checkResponse } from "../../utils/api"; 
+import { authStatusSelector } from "../../services/reducers/auth-slice";
+import { useNavigate } from "react-router-dom";
+import {
+  sendOrder,
+  orderNumberSelector,
+  isLoadingOrderSelector,
+  errorOrderSelector,
+  clearOrder,
+} from "../../services/reducers/order-slice";
+import { Preloader } from "../preloader/preloader";
 
 export const ButtonOrder = ({ text }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [orderNumber, setOrderNumber] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const isLoading = useSelector(isLoadingOrderSelector);
+  const orderNumber = useSelector(orderNumberSelector);
+  const error = useSelector(errorOrderSelector);
 
   const ingredients = useSelector(ingredientsSelector);
   const bun = useSelector(bunIngredientsSelector);
+  const authStatus = useSelector(authStatusSelector);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const totalPrice =
     ingredients.reduce((sum, item) => sum + item.price, 0) +
@@ -35,34 +48,17 @@ export const ButtonOrder = ({ text }) => {
   ];
 
   const handleOrder = async () => {
-    setIsLoading(true);
-    setError(null);
-    setOrderNumber(null);
-    setIsModalOpen(true);
-
-    try {
-      const response = await fetch(`${BASE_URL}/orders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ingredients: ingredientIds }),
-      });
-
-      const data = await checkResponse(response); // Используем функцию
-
-      setOrderNumber(data.order.number);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
+    if (authStatus !== "fulfilled") {
+      navigate("/login");
+      return;
     }
+    setIsModalOpen(true);
+    dispatch(sendOrder(ingredientIds));
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setOrderNumber(null);
-    setError(null);
+    dispatch(clearOrder());
   };
 
   return (
@@ -78,7 +74,20 @@ export const ButtonOrder = ({ text }) => {
         {isLoading ? "Оформляем..." : text}
       </Button>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        {isLoading && <p>Оформляем заказ...</p>}
+        {isLoading && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <p style={{ margin: 60, fontSize: 32 }}>
+              Оформляем заказ...
+              <Preloader />
+            </p>
+          </div>
+        )}
         {error && <p style={{ color: "red" }}>Ошибка: {error}</p>}
         {orderNumber && (
           <OrderDetails orderNumber={orderNumber} onClose={handleCloseModal} />
