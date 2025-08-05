@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../constants";
 import { checkResponse } from "../../utils/api";
+import { RootState } from "../types";
 
-const sleep = (ms) =>
+const sleep = (ms: number) =>
   new Promise((resolve) => {
     setTimeout(() => {
-      resolve();
+      resolve(null);
     }, ms);
   });
 
@@ -28,18 +29,30 @@ export const sendOrder = createAsyncThunk(
 
       return data.order.number;
     } catch (error) {
-      return rejectWithValue(error.message);
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      } else {
+        rejectWithValue("Ошибка создания заказа");
+      }
     }
   }
 );
 
-const orderSlice = createSlice({
-  name: "order",
-  initialState: {
+interface OrderState {
+  orderNumber: number | null
+  loading: boolean
+  error: string | null
+}
+
+const initialState: OrderState = {
     orderNumber: null,
     loading: false,
     error: null,
-  },
+}
+
+const orderSlice = createSlice({
+  name: "order",
+  initialState,
   reducers: {
     clearOrder: (state) => {
       state.orderNumber = null;
@@ -60,14 +73,14 @@ const orderSlice = createSlice({
       })
       .addCase(sendOrder.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.error.message ?? null
       });
   },
 });
 
-export const orderNumberSelector = (state) => state.order.orderNumber
-export const isLoadingOrderSelector = (state) => state.order.loading
-export const errorOrderSelector = (state) => state.order.error
+export const orderNumberSelector = (state: RootState) => state.order.orderNumber
+export const isLoadingOrderSelector = (state: RootState) => state.order.loading
+export const errorOrderSelector = (state: RootState) => state.order.error
 
 export const { clearOrder } = orderSlice.actions;
 

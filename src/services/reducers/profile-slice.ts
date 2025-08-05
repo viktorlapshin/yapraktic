@@ -1,11 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../constants";
 import Cookies from "universal-cookie";
 import { fetchWithRefresh } from "../../utils/api";
+import { User } from "@/types";
+import { RootState } from "../types";
 
 const cookies = new Cookies(null, { path: '/' })
 
-const initialState = {
+interface ProfileState {
+  user: User | null
+}
+
+const initialState: ProfileState = {
     user: null
 };
 
@@ -38,7 +44,7 @@ export const profileSlice = createSlice({
     name: 'profile',
     reducers: {
         reset: () => initialState,
-        setUser: (state, action) => {
+        setUser: (state, action: PayloadAction<User>) => {
             state.user = action.payload
         }
     },
@@ -53,4 +59,4 @@ export const profileSlice = createSlice({
     }
 });
 
-export const userSelector = (state) => state.profile.user
+export const userSelector = (state: RootState) => state.profile.user
