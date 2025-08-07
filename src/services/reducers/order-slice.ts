@@ -10,33 +10,61 @@ const sleep = (ms: number) =>
     }, ms);
   });
 
-export const sendOrder = createAsyncThunk(
-  "order/sendOrder",
-  async (ingredientIds, { rejectWithValue }) => {
-    try {
-      const [response] = await Promise.all([
-        fetch(`${BASE_URL}/orders`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ingredients: ingredientIds }),
-        }),
-        sleep(15_000),
-      ]);
-
-      const data = await checkResponse(response);
-
-      return data.order.number;
-    } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      } else {
-        rejectWithValue("Ошибка создания заказа");
+  export const sendOrder = createAsyncThunk<number, string[]>(
+    "order/sendOrder",
+    async (ingredientIds, { rejectWithValue }) => {
+      try {
+        const [response] = await Promise.all([
+          fetch(`${BASE_URL}/orders`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ingredients: ingredientIds }),
+          }),
+          sleep(15_000),
+        ]);
+  
+        const data = await checkResponse(response);
+  
+        return data.order.number;
+      } catch (error) {
+        if (error instanceof Error) {
+          return rejectWithValue(error.message);
+        } else {
+          return rejectWithValue("Ошибка создания заказа");
+        }
       }
     }
-  }
-);
+  );
+  
+// export const sendOrder = createAsyncThunk(
+//   "order/sendOrder",
+//   async (ingredientIds, { rejectWithValue }) => {
+//     try {
+//       const [response] = await Promise.all([
+//         fetch(`${BASE_URL}/orders`, {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({ ingredients: ingredientIds }),
+//         }),
+//         sleep(15_000),
+//       ]);
+
+//       const data = await checkResponse(response);
+
+//       return data.order.number;
+//     } catch (error) {
+//       if (error instanceof Error) {
+//         return rejectWithValue(error.message);
+//       } else {
+//         rejectWithValue("Ошибка создания заказа");
+//       }
+//     }
+//   }
+// );
 
 interface OrderState {
   orderNumber: number | null

@@ -20,75 +20,113 @@ const initialState: AuthState = {
   authStatus: "pending",
 };
 
-// Экшен для регистрации пользователя
-export const register = createAsyncThunk("auth/register", async (params) => {
-  const response = await fetch(`${BASE_URL}/auth/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(params),
-  });
-
-  const data = await checkResponse(response);
-
-  cookies.set("accessToken", data.accessToken);
-  cookies.set("refreshToken", data.refreshToken);
-});
-
-export const passwordReset = createAsyncThunk(
-  "auth/passwordReset",
-  async (email: string) => {
-    return fetch(`${BASE_URL}/password-reset`, {
-      method: "POST",
-      body: JSON.stringify({ email }),
-    }).then(checkResponse);
-  }
-);
-
-interface PasswordRecoveryParams {
-  password: string, token: string
+// --- Интерфейс для параметров регистрации ---
+interface RegisterParams {
+  name: string;
+  email: string;
+  password: string;
 }
 
-export const passwordRecovery = createAsyncThunk(
-  "auth/passwordRecovery",
-  async (params: PasswordRecoveryParams) => {
-    return fetch(`${BASE_URL}/password-reset/reset`, {
+// --- Интерфейс для параметров логина ---
+interface LoginParams {
+  email: string;
+  password: string;
+}
+
+// --- Интерфейс для параметров восстановления пароля ---
+interface PasswordRecoveryParams {
+  password: string;
+  token: string;
+}
+
+// --- Экшен для регистрации пользователя ---
+export const register = createAsyncThunk<void, RegisterParams>(
+  "auth/register",
+  async (params) => {
+    const response = await fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(params),
-    }).then(checkResponse);
+    });
+
+    const data = await checkResponse(response);
+
+    cookies.set("accessToken", data.accessToken);
+    cookies.set("refreshToken", data.refreshToken);
   }
 );
 
-export const login = createAsyncThunk("auth/login", async (params) => {
-  const response = await fetch(`${BASE_URL}/auth/login`, {
-    method: "POST",
-    body: JSON.stringify(params),
-  });
-
-  const data = await checkResponse(response);
-
-  cookies.set("accessToken", data.accessToken);
-  cookies.set("refreshToken", data.refreshToken);
-});
-
-export const logout = createAsyncThunk("auth/logout", async () => {
-  await fetch(`${BASE_URL}/auth/logout`, {
-    method: "POST",
-    body: JSON.stringify({
-      token: cookies.get("refreshToken"),
-    }),
-  });
-
-  cookies.remove("accessToken");
-  cookies.remove("refreshToken");
-});
-
-export const checkAuth = createAsyncThunk("auth/checkAuth", () => {
-  const accessToken = cookies.get("accessToken");
-
-  if (!accessToken) {
-    throw new Error("Auth error");
+// --- Экшен для сброса пароля ---
+export const passwordReset = createAsyncThunk<void, string>(
+  "auth/passwordReset",
+  async (email) => {
+    const response = await fetch(`${BASE_URL}/password-reset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    return checkResponse(response);
   }
-});
+);
+
+// --- Экшен для восстановления пароля ---
+export const passwordRecovery = createAsyncThunk<void, PasswordRecoveryParams>(
+  "auth/passwordRecovery",
+  async (params) => {
+    const response = await fetch(`${BASE_URL}/password-reset/reset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(params),
+    });
+    return checkResponse(response);
+  }
+);
+
+// --- Экшен для логина ---
+export const login = createAsyncThunk<void, LoginParams>(
+  "auth/login",
+  async (params) => {
+    const response = await fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(params),
+    });
+
+    const data = await checkResponse(response);
+
+    cookies.set("accessToken", data.accessToken);
+    cookies.set("refreshToken", data.refreshToken);
+  }
+);
+
+// --- Экшен для логаута ---
+export const logout = createAsyncThunk<void, void>(
+  "auth/logout",
+  async () => {
+    await fetch(`${BASE_URL}/auth/logout`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: cookies.get("refreshToken"),
+      }),
+    });
+
+    cookies.remove("accessToken");
+    cookies.remove("refreshToken");
+  }
+);
+
+// --- Экшен для проверки авторизации ---
+export const checkAuth = createAsyncThunk<void, void>(
+  "auth/checkAuth",
+  () => {
+    const accessToken = cookies.get("accessToken");
+
+    if (!accessToken) {
+      throw new Error("Auth error");
+    }
+  }
+);
 
 export const authSlice = createSlice({
   initialState,
@@ -131,7 +169,6 @@ export const authSlice = createSlice({
       state.authStatus = "rejected";
     });
 
-    // Регистрация
     addCase(register.pending, (state) => {
       state.authStatus = "pending";
     });
@@ -160,5 +197,3 @@ export const authStatusSelector = (state: RootState) => state.auth.authStatus;
 
 export const { reset } = authSlice.actions;
 export default authSlice.reducer;
-
-// Экшен register уже экспортирован выше как export const register

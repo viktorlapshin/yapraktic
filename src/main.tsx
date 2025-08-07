@@ -7,7 +7,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { App } from "./components/app/app";
 import { store } from "./services/store";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const rootElement = document.getElementById("root") as HTMLElement;
+
+ReactDOM.createRoot(rootElement).render(
   <Provider store={store}>
     <BrowserRouter>
       <DndProvider backend={HTML5Backend}>

@@ -1,11 +1,21 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { IngredientsDetails } from "../../components/ingredients-details/ingredients-details";
+import { IngredientsDetails, Ingredient } from "../../components/ingredients-details/ingredients-details";
 
-export const IngredientDetailsPage = () => {
-  const { id } = useParams();
-  const ingredients = useSelector((state) => state.ingredients.allIngredients);
+interface RootState {
+  ingredients: {
+    allIngredients: Ingredient[];
+  };
+}
+
+type IngredientParams = {
+  id: string;
+};
+
+export const IngredientDetailsPage: React.FC = () => {
+  const { id } = useParams<IngredientParams>();
+  const ingredients = useSelector((state: RootState) => state.ingredients.allIngredients);
   const ingredient = ingredients.find((item) => item._id === id);
 
   if (!ingredient) return <div>Ингредиент не найден</div>;

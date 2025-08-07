@@ -1,10 +1,30 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { ingredientPropType } from "@utils/prop-types.js";
 import styles from "./ingredients-details.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export const IngredientsDetails = ({ selectedIngredient, onClose }) => {
+export interface Ingredient {
+  _id: string;
+  name: string;
+  type: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_mobile: string;
+  image_large: string;
+}
+
+interface IngredientsDetailsProps {
+  selectedIngredient: Ingredient;
+  onClose: () => void;
+}
+
+export const IngredientsDetails: React.FC<IngredientsDetailsProps> = ({
+  selectedIngredient,
+  onClose,
+}) => {
   return (
     <div className={styles.details}>
       <div className={styles.title}>
@@ -15,7 +35,7 @@ export const IngredientsDetails = ({ selectedIngredient, onClose }) => {
           aria-label="Закрыть"
           type="button"
         >
-          <CloseIcon />
+          <CloseIcon type="primary" />
         </button>
       </div>
       <img
@@ -48,9 +68,4 @@ export const IngredientsDetails = ({ selectedIngredient, onClose }) => {
       </div>
     </div>
   );
-};
-
-IngredientsDetails.propTypes = {
-  selectedIngredient: ingredientPropType.isRequired,
-  onClose: PropTypes.func.isRequired,
 };

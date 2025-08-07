@@ -4,15 +4,15 @@ import { EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import styles from "./login.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../services/reducers/auth-slice";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../services/store";
 
 export const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   return (

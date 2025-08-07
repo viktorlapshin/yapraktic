@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -12,7 +11,7 @@ export const OrderDetails = ({ orderNumber, onClose }) => {
         aria-label="Закрыть"
         type="button"
       >
-        <CloseIcon />
+        <CloseIcon type="primary" />
       </button>
       <p className={styles.order_number}>
         {orderNumber ? orderNumber : "—"}
