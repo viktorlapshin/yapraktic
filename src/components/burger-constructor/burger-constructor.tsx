@@ -137,7 +137,7 @@ const ConstructorIngredientsItem: FC<ConstructorIngredientsItemProps> = ({ ingre
 };
 
 interface CollectedProps {
-  canDrop: boolean; 
+  canDrop: boolean;
   isOver: boolean
 }
 

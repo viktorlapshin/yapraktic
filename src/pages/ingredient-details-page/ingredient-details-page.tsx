@@ -22,7 +22,7 @@ export const IngredientDetailsPage: React.FC = () => {
 
   return (
     <div style={{ margin: "40px auto", maxWidth: 600 }}>
-      <IngredientsDetails selectedIngredient={ingredient} onClose={() => {}} />
+      <IngredientsDetails selectedIngredient={ingredient} onClose={() => { }} />
     </div>
   );
 };

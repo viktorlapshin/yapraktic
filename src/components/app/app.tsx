@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   Routes,
   Route,
@@ -14,6 +14,7 @@ import {
   getIngredients,
   isLoadingSelector,
   isErrorSelector,
+  allIngredientsSelector,
 } from "../../services/reducers/ingredients-slice";
 import { Home } from "../../pages/home/home";
 import { Modal } from "../modal/modal";
@@ -23,12 +24,12 @@ import { Register } from "../../pages/register/register";
 import { Forgot } from "../../pages/forgot-password/forgot-password";
 import { ForgotTwo } from "../../pages/reset-password/reset-password";
 import { Profile } from "../../pages/profile/profile";
-import { Link } from "react-router-dom";
 import { checkAuth } from "../../services/reducers/auth-slice";
 import { ProtectedRoute } from "../protected-route/protected-route";
+import { useAppDispatch } from "@/services/store";
 
 export const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isLoading = useSelector(isLoadingSelector);
   const isError = useSelector(isErrorSelector);
 
@@ -53,16 +54,11 @@ export const App = () => {
       {isLoading || isError ? null : (
         <>
           <Routes location={backgroundLocation || location}>
-            <Route
-              path="/"
-              element={<Home />}
-            />
+            <Route path="/" element={<Home />} />
             <Route
               path="/ingredients/:id"
               element={<IngredientDetailsPage />}
             />
-          </Routes>
-          <Routes>
             <Route path="/login" element={<Login />} /> {/* Новый маршрут */}
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<Forgot />} />
@@ -75,7 +71,14 @@ export const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="*" element={<h1 style={{textAlign: "center"}}>Страница не найдена. Ошибка 404.</h1>} />
+            <Route
+              path="*"
+              element={
+                <h1 style={{ textAlign: "center" }}>
+                  Страница не найдена. Ошибка 404.
+                </h1>
+              }
+            />
           </Routes>
 
           {backgroundLocation && (
@@ -92,7 +95,7 @@ export const App = () => {
 function ModalWrapper() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const ingredients = useSelector((state) => state.ingredients.allIngredients);
+  const ingredients = useSelector(allIngredientsSelector);
   const ingredient = ingredients.find((item) => item._id === id);
 
   const handleClose = () => navigate(-1);

@@ -100,33 +100,27 @@ export const login = createAsyncThunk<void, LoginParams>(
 );
 
 // --- Экшен для логаута ---
-export const logout = createAsyncThunk<void, void>(
-  "auth/logout",
-  async () => {
-    await fetch(`${BASE_URL}/auth/logout`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: cookies.get("refreshToken"),
-      }),
-    });
+export const logout = createAsyncThunk<void, void>("auth/logout", async () => {
+  await fetch(`${BASE_URL}/auth/logout`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token: cookies.get("refreshToken"),
+    }),
+  });
 
-    cookies.remove("accessToken");
-    cookies.remove("refreshToken");
-  }
-);
+  cookies.remove("accessToken");
+  cookies.remove("refreshToken");
+});
 
 // --- Экшен для проверки авторизации ---
-export const checkAuth = createAsyncThunk<void, void>(
-  "auth/checkAuth",
-  () => {
-    const accessToken = cookies.get("accessToken");
+export const checkAuth = createAsyncThunk<void, void>("auth/checkAuth", () => {
+  const accessToken = cookies.get("accessToken");
 
-    if (!accessToken) {
-      throw new Error("Auth error");
-    }
+  if (!accessToken) {
+    throw new Error("Auth error");
   }
-);
+});
 
 export const authSlice = createSlice({
   initialState,

@@ -10,34 +10,34 @@ const sleep = (ms: number) =>
     }, ms);
   });
 
-  export const sendOrder = createAsyncThunk<number, string[]>(
-    "order/sendOrder",
-    async (ingredientIds, { rejectWithValue }) => {
-      try {
-        const [response] = await Promise.all([
-          fetch(`${BASE_URL}/orders`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ ingredients: ingredientIds }),
-          }),
-          sleep(15_000),
-        ]);
-  
-        const data = await checkResponse(response);
-  
-        return data.order.number;
-      } catch (error) {
-        if (error instanceof Error) {
-          return rejectWithValue(error.message);
-        } else {
-          return rejectWithValue("Ошибка создания заказа");
-        }
+export const sendOrder = createAsyncThunk<number, string[]>(
+  "order/sendOrder",
+  async (ingredientIds, { rejectWithValue }) => {
+    try {
+      const [response] = await Promise.all([
+        fetch(`${BASE_URL}/orders`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ingredients: ingredientIds }),
+        }),
+        sleep(15_000),
+      ]);
+
+      const data = await checkResponse(response);
+
+      return data.order.number;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      } else {
+        return rejectWithValue("Ошибка создания заказа");
       }
     }
-  );
-  
+  }
+);
+
 // export const sendOrder = createAsyncThunk(
 //   "order/sendOrder",
 //   async (ingredientIds, { rejectWithValue }) => {
@@ -67,16 +67,16 @@ const sleep = (ms: number) =>
 // );
 
 interface OrderState {
-  orderNumber: number | null
-  loading: boolean
-  error: string | null
+  orderNumber: number | null;
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: OrderState = {
-    orderNumber: null,
-    loading: false,
-    error: null,
-}
+  orderNumber: null,
+  loading: false,
+  error: null,
+};
 
 const orderSlice = createSlice({
   name: "order",
@@ -101,14 +101,15 @@ const orderSlice = createSlice({
       })
       .addCase(sendOrder.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message ?? null
+        state.error = action.error.message ?? null;
       });
   },
 });
 
-export const orderNumberSelector = (state: RootState) => state.order.orderNumber
-export const isLoadingOrderSelector = (state: RootState) => state.order.loading
-export const errorOrderSelector = (state: RootState) => state.order.error
+export const orderNumberSelector = (state: RootState) =>
+  state.order.orderNumber;
+export const isLoadingOrderSelector = (state: RootState) => state.order.loading;
+export const errorOrderSelector = (state: RootState) => state.order.error;
 
 export const { clearOrder } = orderSlice.actions;
 

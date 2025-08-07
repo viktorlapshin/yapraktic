@@ -1,8 +1,16 @@
-import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC } from "react";
 
-export const OrderDetails = ({ orderNumber, onClose }) => {
+interface OrderDetailsProps {
+  orderNumber: number | null;
+  onClose: () => void;
+}
+
+export const OrderDetails: FC<OrderDetailsProps> = ({
+  orderNumber,
+  onClose,
+}) => {
   return (
     <div className={styles.order_block}>
       <button
@@ -13,9 +21,7 @@ export const OrderDetails = ({ orderNumber, onClose }) => {
       >
         <CloseIcon type="primary" />
       </button>
-      <p className={styles.order_number}>
-        {orderNumber ? orderNumber : "—"}
-      </p>
+      <p className={styles.order_number}>{orderNumber ? orderNumber : "—"}</p>
       <p className={`${styles.title} text text_type_main-large`}>
         идентификатор заказа
       </p>
@@ -32,9 +38,4 @@ export const OrderDetails = ({ orderNumber, onClose }) => {
       </p>
     </div>
   );
-};
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onClose: PropTypes.func.isRequired,
 };

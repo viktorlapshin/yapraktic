@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./reset-password.module.css";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   passwordRecoveryStatusSelector,
   passwordRecovery,
