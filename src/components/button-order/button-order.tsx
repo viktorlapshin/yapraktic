@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+// button-order.tsx
+
+import { useState, FC } from "react";
 import styles from "./button-order.module.css";
-import * as PropTypes from "prop-types";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   bunIngredientsSelector,
   ingredientsSelector,
@@ -22,32 +23,44 @@ import {
   clearOrder,
 } from "../../services/reducers/order-slice";
 import { Preloader } from "../preloader/preloader";
+import { useAppDispatch } from "../../services/store"; // <= путь до store
 
-export const ButtonOrder = ({ text }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+interface Ingredient {
+  _id: string;
+  price: number;
+}
 
-  const isLoading = useSelector(isLoadingOrderSelector);
-  const orderNumber = useSelector(orderNumberSelector);
-  const error = useSelector(errorOrderSelector);
+type AuthStatus = "idle" | "pending" | "fulfilled" | "rejected";
 
-  const ingredients = useSelector(ingredientsSelector);
-  const bun = useSelector(bunIngredientsSelector);
-  const authStatus = useSelector(authStatusSelector);
+interface ButtonOrderProps {
+  text: string;
+}
+
+export const ButtonOrder: FC<ButtonOrderProps> = ({ text }) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const isLoading = useSelector(isLoadingOrderSelector) as boolean;
+  const orderNumber = useSelector(orderNumberSelector) as number | null;
+  const error = useSelector(errorOrderSelector) as string | null;
+
+  const ingredients = useSelector(ingredientsSelector) as Ingredient[];
+  const bun = useSelector(bunIngredientsSelector) as Ingredient | null;
+  const authStatus = useSelector(authStatusSelector) as AuthStatus;
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const totalPrice =
+  const totalPrice: number =
     ingredients.reduce((sum, item) => sum + item.price, 0) +
     (bun ? bun.price * 2 : 0);
 
-  const ingredientIds = [
+  const ingredientIds: string[] = [
     ...(bun ? [bun._id] : []),
     ...ingredients.map((item) => item._id),
     ...(bun ? [bun._id] : []),
   ];
 
-  const handleOrder = async () => {
+  const handleOrder = () => {
     if (authStatus !== "fulfilled") {
       navigate("/login");
       return;
@@ -64,7 +77,7 @@ export const ButtonOrder = ({ text }) => {
   return (
     <div className={styles.order_block}>
       <h1>
-        <span>{totalPrice}</span> <CurrencyIcon />
+        <span>{totalPrice}</span> <CurrencyIcon type="primary" />
       </h1>
       <Button
         onClick={handleOrder}
@@ -95,8 +108,4 @@ export const ButtonOrder = ({ text }) => {
       </Modal>
     </div>
   );
-};
-
-ButtonOrder.propTypes = {
-  text: PropTypes.string.isRequired,
 };

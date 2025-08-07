@@ -1,6 +1,5 @@
-import React from "react";
-import { ingredientPropType } from "@utils/prop-types.js";
 import styles from "./burger-ingredients-item.module.css";
+import { FC } from "react";
 import {
   Counter,
   CurrencyIcon,
@@ -11,8 +10,13 @@ import {
   ingredientsSelector,
   bunIngredientsSelector,
 } from "../../services/reducers/ingredients-slice";
+import { Ingridient } from "@/types";
 
-export const BurgerIngredienstItem = ({ ingredient }) => {
+interface BurgerIngredienstItemProps {
+  ingredient: Ingridient
+}
+
+export const BurgerIngredienstItem: FC<BurgerIngredienstItemProps> = ({ ingredient }) => {
   const [_, drag, dragPreview] = useDrag(() => ({
     type: ingredient.type === "bun" ? "bun" : "ingredient",
     item: ingredient,
@@ -43,14 +47,10 @@ export const BurgerIngredienstItem = ({ ingredient }) => {
         {count > 0 && <Counter count={count} extraClass="" />}
         <img src={ingredient.image} alt={ingredient.name} />
         <h3 className={styles.price}>
-          {ingredient.price} <CurrencyIcon />
+          {ingredient.price} <CurrencyIcon type="primary" />
         </h3>
         <p>{ingredient.name}</p>
       </div>
     </>
   );
-};
-
-BurgerIngredienstItem.propTypes = {
-  ingredient: ingredientPropType,
 };

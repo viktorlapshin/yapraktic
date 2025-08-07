@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import {
   Input,
   Tab,
@@ -6,23 +6,33 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import styles from "./profile.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { logout } from "../../services/reducers/auth-slice";
 import { getProfile, editProfile } from "../../services/reducers/profile-slice";
 import { userSelector } from "../../services/reducers/profile-slice";
+import { useAppDispatch } from "../../services/store";
 
-export const Profile = () => {
-  const [activeTab, setActiveTab] = useState("profile");
+// Типизация пользователя
+interface IUser {
+  name: string;
+  email: string;
+}
 
-  const [name, setName] = useState("");
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+// Типизация вкладок
+type TabType = "profile" | "orders" | "logout";
 
-  const [initialName, setInitialName] = useState("");
-  const [initialLogin, setInitialLogin] = useState("");
+export const Profile: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<TabType>("profile");
 
-  const dispatch = useDispatch();
-  const user = useSelector(userSelector);
+  const [name, setName] = useState<string>("");
+  const [login, setLogin] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const [initialName, setInitialName] = useState<string>("");
+  const [initialLogin, setInitialLogin] = useState<string>("");
+
+  const dispatch = useAppDispatch();
+  const user = useSelector(userSelector) as IUser | null;
 
   useEffect(() => {
     dispatch(getProfile());
@@ -37,7 +47,7 @@ export const Profile = () => {
     }
   }, [user]);
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: TabType) => {
     setActiveTab(tab);
   };
 
@@ -74,33 +84,33 @@ export const Profile = () => {
       </div>
       <form
         className={styles.right_block}
-        onSubmit={(event) => {
+        onSubmit={(event: FormEvent<HTMLFormElement>) => {
           event.preventDefault();
-
-          dispatch(editProfile({ name, login, password }));
+          dispatch(editProfile({ name, email: login, password }));
         }}
       >
         <Input
           placeholder="Имя"
           value={name}
           icon="EditIcon"
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
         />
         <Input
           placeholder="Логин"
           value={login}
           icon="EditIcon"
-          onChange={(e) => setLogin(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
         />
         <Input
           placeholder="Пароль"
           value={password}
           icon="EditIcon"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
         />
         {isChanged && (
           <div className={styles.button_block}>
             <Link
+              to="#"
               onClick={() => {
                 setName(initialName);
                 setLogin(initialLogin);

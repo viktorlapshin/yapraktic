@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "./burger-constructor.module.css";
 import { ButtonOrder } from "../button-order/button-order";
 import {
@@ -14,12 +14,21 @@ import {
   moveIngredient,
 } from "../../services/reducers/ingredients-slice";
 import { useDrop, useDrag } from "react-dnd";
+import { Ingridient, UniqueIngridient, BunConstructorItemType } from "@/types";
 
-const BunConstructorIngredientsItem = ({ type, ingredient }) => {
+interface BunConstructorIngredientsItemProps {
+  type: BunConstructorItemType;
+  ingredient?: Ingridient;
+}
+
+const BunConstructorIngredientsItem: FC<BunConstructorIngredientsItemProps> = ({
+  type,
+  ingredient,
+}) => {
   const dispatch = useDispatch();
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: "bun",
-    drop: (ingredient) => {
+    drop: (ingredient: Ingridient) => {
       dispatch(addIngredient(ingredient));
     },
     collect: (monitor) => ({
@@ -32,7 +41,11 @@ const BunConstructorIngredientsItem = ({ type, ingredient }) => {
     <div
       ref={drop}
       style={{
-        border: isOver ? "2px solid green" : canDrop ? "2px dashed orange" : undefined,
+        border: isOver
+          ? "2px solid green"
+          : canDrop
+            ? "2px dashed orange"
+            : undefined,
       }}
       className={styles[`${type}_bun`]}
     >
@@ -51,11 +64,25 @@ const BunConstructorIngredientsItem = ({ type, ingredient }) => {
   );
 };
 
-const ConstructorIngredientsItem = ({ ingredient, index }) => {
-  const dispatch = useDispatch();
-  const ref = React.useRef(null);
+interface ConstructorIngredientsItemProps {
+  index: number
+  ingredient: UniqueIngridient;
+}
 
-  const [{ handlerId }, drop] = useDrop({
+interface DragItem {
+  index: number
+  handlerId: string
+}
+
+interface CollectedItemProps {
+  handlerId: string | symbol | null
+}
+
+const ConstructorIngredientsItem: FC<ConstructorIngredientsItemProps> = ({ ingredient, index }) => {
+  const dispatch = useDispatch();
+  const ref = React.useRef<HTMLLIElement>(null);
+
+  const [{ handlerId }, drop] = useDrop<DragItem, unknown, CollectedItemProps>({
     accept: "move",
     collect: (monitor) => ({
       handlerId: monitor.getHandlerId(),
@@ -68,9 +95,10 @@ const ConstructorIngredientsItem = ({ ingredient, index }) => {
       if (dragIndex === hoverIndex) return;
 
       const hoverBoundingRect = ref.current.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset?.y ?? 0) - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
@@ -97,7 +125,7 @@ const ConstructorIngredientsItem = ({ ingredient, index }) => {
       data-handler-id={handlerId}
       className={styles.point_list_food}
     >
-      <DragIcon />
+      <DragIcon type="primary" />
       <ConstructorElement
         thumbnail={ingredient.image}
         text={ingredient.name}
@@ -108,10 +136,15 @@ const ConstructorIngredientsItem = ({ ingredient, index }) => {
   );
 };
 
+interface CollectedProps {
+  canDrop: boolean;
+  isOver: boolean
+}
+
 export const BurgerConstructor = () => {
   const dispatch = useDispatch();
 
-  const [{ canDrop, isOver }, drop] = useDrop({
+  const [{ canDrop, isOver }, drop] = useDrop<Ingridient, unknown, CollectedProps>({
     accept: "ingredient",
     drop: (ingredient) => {
       dispatch(addIngredient(ingredient));
@@ -135,7 +168,11 @@ export const BurgerConstructor = () => {
             <div
               className={styles.filling}
               style={{
-                border: isOver ? "2px solid green" : canDrop ? "2px dashed orange" : undefined,
+                border: isOver
+                  ? "2px solid green"
+                  : canDrop
+                    ? "2px dashed orange"
+                    : undefined,
               }}
             >
               Выберите начинку
@@ -151,7 +188,10 @@ export const BurgerConstructor = () => {
           )}
         </ul>
 
-        <BunConstructorIngredientsItem type="bottom" ingredient={bunIngredient} />
+        <BunConstructorIngredientsItem
+          type="bottom"
+          ingredient={bunIngredient}
+        />
       </div>
 
       <ButtonOrder text="Оформить заказ" />
