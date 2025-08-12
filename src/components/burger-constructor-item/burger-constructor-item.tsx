@@ -1,15 +1,19 @@
-import React from "react";
-import { ingredientPropType } from "@utils/prop-types.js";
 import styles from "./burger-constructor-item.module.css";
 import {
   DeleteIcon,
   LockIcon,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import * as PropTypes from "prop-types";
-import { useDrop } from "react-dnd";
+import { FC } from "react";
+import { Ingridient } from "@/types";
 
-export const BurgerConstructorItem = ({
+interface BurgerConstructorItemProps {
+  ingredient: Ingridient,
+  disabled: boolean,
+  additionalText: string,
+}
+
+export const BurgerConstructorItem: FC<BurgerConstructorItemProps> = ({
   ingredient,
   disabled,
   additionalText,
@@ -22,17 +26,11 @@ export const BurgerConstructorItem = ({
         {additionalText && ` ${additionalText}`}
       </span>
       <h3 className={styles.price}>
-        <span>{ingredient.price}</span> <CurrencyIcon />
+        <span>{ingredient.price}</span> <CurrencyIcon type="primary" />
       </h3>
       <button className={styles.button_delete} disabled={disabled}>
-        {disabled ? <LockIcon type="disabled" /> : <DeleteIcon />}
+        {disabled ? <LockIcon type="disabled" /> : <DeleteIcon type="primary" />}
       </button>
     </div>
   );
-};
-
-BurgerConstructorItem.propTypes = {
-  ingredient: ingredientPropType,
-  disabled: PropTypes.bool,
-  additionalText: PropTypes.string,
 };

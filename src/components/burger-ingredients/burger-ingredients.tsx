@@ -1,37 +1,40 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
 import { BurgerIngredienstItem } from "../burger-ingredients-item/burger-ingredients-item";
 import { allIngredientsSelector } from "../../services/reducers/ingredients-slice";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Ingridient } from "@/types";
+
+type TabType = 'bun' | 'main' | 'sauce'
 
 export const BurgerIngredients = () => {
-  const [currentTab, setCurrentTab] = useState("bun");
+  const [currentTab, setCurrentTab] = useState<TabType>("bun");
 
-  const bunRef = useRef(null);
-  const mainRef = useRef(null);
-  const sauceRef = useRef(null);
-  const containerRef = useRef(null);
+  const bunRef = useRef<HTMLHeadingElement>(null);
+  const mainRef = useRef<HTMLHeadingElement>(null);
+  const sauceRef = useRef<HTMLHeadingElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const ingredients = useSelector(allIngredientsSelector);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleOpenModal = (ingredient) => {
+  const handleOpenModal = (ingredient: Ingridient) => {
     navigate(`/ingredients/${ingredient._id}`, {
       state: { backgroundLocation: location },
     });
   };
 
-  const scrollToSection = (type) => {
+  const scrollToSection = (type: TabType) => {
     if (type === "bun" && bunRef.current) {
-      bunRef.current.scrollIntoView({ behavior: "smooth" });
+      bunRef.current?.scrollIntoView({ behavior: "smooth" });
     } else if (type === "main" && mainRef.current) {
-      mainRef.current.scrollIntoView({ behavior: "smooth" });
+      mainRef.current?.scrollIntoView({ behavior: "smooth" });
     } else if (type === "sauce" && sauceRef.current) {
-      sauceRef.current.scrollIntoView({ behavior: "smooth" });
+      sauceRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -45,16 +48,16 @@ export const BurgerIngredients = () => {
       )
         return;
 
-      const containerTop = containerRef.current.getBoundingClientRect().top;
+      const containerTop = containerRef.current?.getBoundingClientRect().top;
 
       const bunTop = Math.abs(
-        bunRef.current.getBoundingClientRect().top - containerTop
+        bunRef.current?.getBoundingClientRect()?.top - containerTop
       );
       const mainTop = Math.abs(
-        mainRef.current.getBoundingClientRect().top - containerTop
+        mainRef.current?.getBoundingClientRect()?.top - containerTop
       );
       const sauceTop = Math.abs(
-        sauceRef.current.getBoundingClientRect().top - containerTop
+        sauceRef.current?.getBoundingClientRect()?.top - containerTop
       );
 
       const min = Math.min(bunTop, mainTop, sauceTop);
