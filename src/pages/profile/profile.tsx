@@ -11,6 +11,7 @@ import { logout } from "../../services/reducers/auth-slice";
 import { getProfile, editProfile } from "../../services/reducers/profile-slice";
 import { userSelector } from "../../services/reducers/profile-slice";
 import { useAppDispatch } from "../../services/store";
+import { Orders } from "./orders";
 
 // Типизация пользователя
 interface IUser {
@@ -82,47 +83,56 @@ export const Profile: React.FC = () => {
         </Tab>
         <p>В этом разделе вы можете изменить свои персональные данные</p>
       </div>
-      <form
-        className={styles.right_block}
-        onSubmit={(event: FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          dispatch(editProfile({ name, email: login, password }));
-        }}
-      >
-        <Input
-          placeholder="Имя"
-          value={name}
-          icon="EditIcon"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-        />
-        <Input
-          placeholder="Логин"
-          value={login}
-          icon="EditIcon"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
-        />
-        <Input
-          placeholder="Пароль"
-          value={password}
-          icon="EditIcon"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-        />
-        {isChanged && (
-          <div className={styles.button_block}>
-            <Link
-              to="#"
-              onClick={() => {
-                setName(initialName);
-                setLogin(initialLogin);
-                setPassword("");
-              }}
-            >
-              Отмена
-            </Link>
-            <Button htmlType="submit">Сохранить</Button>
-          </div>
-        )}
-      </form>
+      {activeTab === "profile" && (
+        <form
+          className={styles.right_block}
+          onSubmit={(event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            dispatch(editProfile({ name, email: login, password }));
+          }}
+        >
+          <Input
+            placeholder="Имя"
+            value={name}
+            icon="EditIcon"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
+          />
+          <Input
+            placeholder="Логин"
+            value={login}
+            icon="EditIcon"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setLogin(e.target.value)
+            }
+          />
+          <Input
+            placeholder="Пароль"
+            value={password}
+            icon="EditIcon"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
+          />
+          {isChanged && (
+            <div className={styles.button_block}>
+              <Link
+                to="#"
+                onClick={() => {
+                  setName(initialName);
+                  setLogin(initialLogin);
+                  setPassword("");
+                }}
+              >
+                Отмена
+              </Link>
+              <Button htmlType="submit">Сохранить</Button>
+            </div>
+          )}
+        </form>
+      )}
+      {activeTab === "orders" && <Orders />}
     </div>
   );
 };

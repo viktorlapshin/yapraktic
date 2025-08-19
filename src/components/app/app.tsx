@@ -27,6 +27,10 @@ import { Profile } from "../../pages/profile/profile";
 import { checkAuth } from "../../services/reducers/auth-slice";
 import { ProtectedRoute } from "../protected-route/protected-route";
 import { useAppDispatch } from "@/services/store";
+import { Feed } from "@/pages/feed";
+import { Order } from "@/pages/order";
+import { totalOrderSelector } from "@/services/reducers/order-slice";
+import { OrderFullDetails } from "../order-full-details";
 
 export const App = () => {
   const dispatch = useAppDispatch();
@@ -59,6 +63,8 @@ export const App = () => {
               path="/ingredients/:id"
               element={<IngredientDetailsPage />}
             />
+            <Route path="/order/:orderNumber" element={<Order />} />
+            <Route path="feed" element={<Feed />} />
             <Route path="/login" element={<Login />} /> {/* Новый маршрут */}
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<Forgot />} />
@@ -84,6 +90,10 @@ export const App = () => {
           {backgroundLocation && (
             <Routes>
               <Route path="/ingredients/:id" element={<ModalWrapper />} />
+              <Route
+                path="/order/:orderNumber"
+                element={<OrderModalWrapper />}
+              />
             </Routes>
           )}
         </>
@@ -91,6 +101,23 @@ export const App = () => {
     </div>
   );
 };
+
+function OrderModalWrapper() {
+  const navigate = useNavigate();
+  const { orderNumber } = useParams();
+
+  const order = useSelector(totalOrderSelector(Number(orderNumber)));
+
+  const handleClose = () => navigate(-1);
+
+  if (!order) return null;
+
+  return (
+    <Modal isOpen={true} onClose={handleClose}>
+      <OrderFullDetails order={order} />
+    </Modal>
+  );
+}
 
 function ModalWrapper() {
   const navigate = useNavigate();

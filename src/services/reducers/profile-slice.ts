@@ -3,11 +3,11 @@ import { BASE_URL } from "../../constants";
 import Cookies from "universal-cookie";
 import { fetchWithRefresh } from "../../utils/api";
 import { User } from "@/types";
-import { RootState } from "../types";
+import { type RootState } from "../types";
 
 const cookies = new Cookies(null, { path: "/" });
 
-interface ProfileState {
+export interface ProfileState {
   user: User | null;
 }
 
