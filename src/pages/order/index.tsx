@@ -2,7 +2,7 @@ import { OrderFullDetails } from "@/components/order-full-details";
 import {
   clearSelectedOrder,
   getOrder,
-  totalOrderSelector,
+  totalOrderWithIngridientsSelector,
 } from "@/services/reducers/order-slice";
 import { useAppDispatch } from "@/services/store";
 import { FC, useEffect } from "react";
@@ -13,7 +13,7 @@ export const Order: FC = () => {
   const { orderNumber } = useParams();
   const dispatch = useAppDispatch();
 
-  const order = useSelector(totalOrderSelector(Number(orderNumber)));
+  const order = useSelector(totalOrderWithIngridientsSelector(Number(orderNumber)));
 
   useEffect(() => {
     if (orderNumber) {

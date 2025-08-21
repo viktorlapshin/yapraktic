@@ -6,9 +6,10 @@ import {
 import { BASE_URL } from "../../constants";
 import { checkResponse } from "../../utils/api";
 import { type RootState } from "../types";
-import { Order } from "./orders-all/types";
+import { Order, OrderWithIngredients} from "./orders-all/types";
 import { ordersAllResponseSelector } from "./orders-all/slice";
 import { ordersResponseSelector } from "./orders/slice";
+import { ingredientsMapSelector } from "./ingredients-slice";
 
 const sleep = (ms: number) =>
   new Promise((resolve) => {
@@ -181,6 +182,17 @@ export const totalOrderSelector = (orderNumber: number) =>
       return null;
     }
   );
+
+export const totalOrderWithIngridientsSelector = (orderNumber: number) => createSelector(totalOrderSelector(orderNumber), ingredientsMapSelector, (order, ingredientsMap): OrderWithIngredients | null => {
+  if (order) {
+    return {
+      ...order,
+        ingredients: order.ingredients.map((ingredientId) => ingredientsMap[ingredientId])
+    }
+  }
+
+  return null
+})
 
 export const { clearOrder, clearSelectedOrder } = orderSlice.actions;
 

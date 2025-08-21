@@ -1,5 +1,3 @@
-// button-order.tsx
-
 import { useState, FC } from "react";
 import styles from "./button-order.module.css";
 import { Modal } from "../modal/modal";
@@ -23,7 +21,7 @@ import {
   clearOrder,
 } from "../../services/reducers/order-slice";
 import { Preloader } from "../preloader/preloader";
-import { useAppDispatch } from "../../services/store"; // <= путь до store
+import { useAppDispatch } from "../../services/store";
 
 interface Ingredient {
   _id: string;

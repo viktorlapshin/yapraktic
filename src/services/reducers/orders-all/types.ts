@@ -1,6 +1,6 @@
 import { Ingridient } from "@/types";
 
-export type OrderStatus = "done";
+export type OrderStatus = "done" | "pending" | "created"
 
 export interface Order {
   createdAt: string;

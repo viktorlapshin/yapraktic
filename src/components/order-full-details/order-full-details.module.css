@@ -1,0 +1,142 @@
+.wrapper {
+  display: grid;
+  gap: 24px;
+}
+
+.number {
+  color: var(--text-secondary);
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.status {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.sectionTitle {
+  margin-top: 8px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.list {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  padding-right: 28px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.list::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 8px;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--separator), transparent 70%);
+  border-radius: 4px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--ring-grad);
+  padding: 2px;
+  display: grid;
+  place-items: center;
+}
+
+.thumbInner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #131316;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.thumbInner img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.name {
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.qtyPrice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.multiplication {
+  color: var(--text-secondary);
+}
+
+.currency {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-secondary);
+}
+
+.total {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 560px) {
+  .panelPaddingFix {
+    padding: 24px !important;
+  }
+  .row {
+    grid-template-columns: 48px 1fr auto;
+  }
+  .thumb,
+  .thumbInner {
+    width: 48px;
+    height: 48px;
+  }
+  .thumbInner img {
+    width: 46px;
+    height: 46px;
+  }
+}

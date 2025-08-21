@@ -13,13 +13,13 @@ import { userSelector } from "../../services/reducers/profile-slice";
 import { useAppDispatch } from "../../services/store";
 import { Orders } from "./orders";
 
-// Типизация пользователя
+
 interface IUser {
   name: string;
   email: string;
 }
 
-// Типизация вкладок
+
 type TabType = "profile" | "orders" | "logout";
 
 export const Profile: React.FC = () => {

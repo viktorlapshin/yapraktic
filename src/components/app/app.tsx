@@ -29,7 +29,7 @@ import { ProtectedRoute } from "../protected-route/protected-route";
 import { useAppDispatch } from "@/services/store";
 import { Feed } from "@/pages/feed";
 import { Order } from "@/pages/order";
-import { totalOrderSelector } from "@/services/reducers/order-slice";
+import { totalOrderWithIngridientsSelector } from "@/services/reducers/order-slice";
 import { OrderFullDetails } from "../order-full-details";
 
 export const App = () => {
@@ -65,7 +65,7 @@ export const App = () => {
             />
             <Route path="/order/:orderNumber" element={<Order />} />
             <Route path="feed" element={<Feed />} />
-            <Route path="/login" element={<Login />} /> {/* Новый маршрут */}
+            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<Forgot />} />
             <Route path="/reset-password" element={<ForgotTwo />} />
@@ -106,7 +106,7 @@ function OrderModalWrapper() {
   const navigate = useNavigate();
   const { orderNumber } = useParams();
 
-  const order = useSelector(totalOrderSelector(Number(orderNumber)));
+  const order = useSelector(totalOrderWithIngridientsSelector(Number(orderNumber)));
 
   const handleClose = () => navigate(-1);
 
@@ -130,7 +130,7 @@ function ModalWrapper() {
   if (!ingredient) return null;
 
   return (
-    <Modal isOpen={true} onClose={handleClose}>
+    <Modal isOpen={true} onClose={handleClose} >
       <IngredientsDetails
         selectedIngredient={ingredient}
         onClose={handleClose}
