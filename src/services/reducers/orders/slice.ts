@@ -33,9 +33,10 @@ export const ordersSelector = createSelector(
     if (ordersResponse) {
       return ordersResponse.orders.map<OrderWithIngredients>((order) => ({
         ...order,
-        ingredients: order.ingredients.map(
-          (ingredientId) => ingredientsMap[ingredientId]
-        ),
+        ingredients:
+          order.ingredients.map(
+            (ingredientId) => ingredientsMap[ingredientId]
+          ) ?? [],
       }));
     }
 
