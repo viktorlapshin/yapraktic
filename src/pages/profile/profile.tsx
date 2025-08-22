@@ -6,19 +6,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import styles from "./profile.module.css";
-import { useSelector } from "react-redux";
 import { logout } from "../../services/reducers/auth-slice";
 import { getProfile, editProfile } from "../../services/reducers/profile-slice";
 import { userSelector } from "../../services/reducers/profile-slice";
-import { useAppDispatch } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
 import { Orders } from "./orders";
-
 
 interface IUser {
   name: string;
   email: string;
 }
-
 
 type TabType = "profile" | "orders" | "logout";
 
@@ -33,7 +30,7 @@ export const Profile: React.FC = () => {
   const [initialLogin, setInitialLogin] = useState<string>("");
 
   const dispatch = useAppDispatch();
-  const user = useSelector(userSelector) as IUser | null;
+  const user = useAppSelector(userSelector) as IUser | null;
 
   useEffect(() => {
     dispatch(getProfile());

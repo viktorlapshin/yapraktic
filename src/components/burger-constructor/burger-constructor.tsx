@@ -5,7 +5,6 @@ import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
 import {
   bunIngredientsSelector,
   ingredientsSelector,
@@ -15,6 +14,7 @@ import {
 } from "../../services/reducers/ingredients-slice";
 import { useDrop, useDrag } from "react-dnd";
 import { Ingridient, UniqueIngridient, BunConstructorItemType } from "@/types";
+import { useAppDispatch, useAppSelector } from "@/services/store";
 
 interface BunConstructorIngredientsItemProps {
   type: BunConstructorItemType;
@@ -25,7 +25,7 @@ const BunConstructorIngredientsItem: FC<BunConstructorIngredientsItemProps> = ({
   type,
   ingredient,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: "bun",
     drop: (ingredient: Ingridient) => {
@@ -65,21 +65,24 @@ const BunConstructorIngredientsItem: FC<BunConstructorIngredientsItemProps> = ({
 };
 
 interface ConstructorIngredientsItemProps {
-  index: number
+  index: number;
   ingredient: UniqueIngridient;
 }
 
 interface DragItem {
-  index: number
-  handlerId: string
+  index: number;
+  handlerId: string;
 }
 
 interface CollectedItemProps {
-  handlerId: string | symbol | null
+  handlerId: string | symbol | null;
 }
 
-const ConstructorIngredientsItem: FC<ConstructorIngredientsItemProps> = ({ ingredient, index }) => {
-  const dispatch = useDispatch();
+const ConstructorIngredientsItem: FC<ConstructorIngredientsItemProps> = ({
+  ingredient,
+  index,
+}) => {
+  const dispatch = useAppDispatch();
   const ref = React.useRef<HTMLLIElement>(null);
 
   const [{ handlerId }, drop] = useDrop<DragItem, unknown, CollectedItemProps>({
@@ -138,13 +141,17 @@ const ConstructorIngredientsItem: FC<ConstructorIngredientsItemProps> = ({ ingre
 
 interface CollectedProps {
   canDrop: boolean;
-  isOver: boolean
+  isOver: boolean;
 }
 
 export const BurgerConstructor = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [{ canDrop, isOver }, drop] = useDrop<Ingridient, unknown, CollectedProps>({
+  const [{ canDrop, isOver }, drop] = useDrop<
+    Ingridient,
+    unknown,
+    CollectedProps
+  >({
     accept: "ingredient",
     drop: (ingredient) => {
       dispatch(addIngredient(ingredient));
@@ -155,8 +162,8 @@ export const BurgerConstructor = () => {
     }),
   });
 
-  const bunIngredient = useSelector(bunIngredientsSelector);
-  const otherIngredients = useSelector(ingredientsSelector);
+  const bunIngredient = useAppSelector(bunIngredientsSelector);
+  const otherIngredients = useAppSelector(ingredientsSelector);
 
   return (
     <section className={styles.burger_constructor}>

@@ -4,8 +4,8 @@ import ingredientsReducer from "./reducers/ingredients-slice";
 import orderReducer from "./reducers/order-slice";
 import { authSlice } from "./reducers/auth-slice";
 import { profileSlice } from "./reducers/profile-slice";
-import { useDispatch } from "react-redux";
-import { type AppDispatch } from "./types";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, type AppDispatch } from "./types";
 import { socketMiddleware } from "@/services/middleware/socket-middleware";
 import {
   ordersAllConnect,
@@ -66,3 +66,4 @@ export const store = configureStore({
 });
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = useSelector.withTypes<RootState>();

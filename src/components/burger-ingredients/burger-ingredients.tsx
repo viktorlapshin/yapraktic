@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
 import { BurgerIngredienstItem } from "../burger-ingredients-item/burger-ingredients-item";
 import { allIngredientsSelector } from "../../services/reducers/ingredients-slice";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Ingridient } from "@/types";
+import { useAppSelector } from "@/services/store";
 
-type TabType = 'bun' | 'main' | 'sauce'
+type TabType = "bun" | "main" | "sauce";
 
 export const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = useState<TabType>("bun");
@@ -17,7 +17,7 @@ export const BurgerIngredients = () => {
   const sauceRef = useRef<HTMLHeadingElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const ingredients = useSelector(allIngredientsSelector);
+  const ingredients = useAppSelector(allIngredientsSelector);
 
   const navigate = useNavigate();
   const location = useLocation();

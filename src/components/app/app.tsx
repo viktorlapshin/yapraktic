@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import {
   Routes,
   Route,
@@ -26,7 +25,7 @@ import { ForgotTwo } from "../../pages/reset-password/reset-password";
 import { Profile } from "../../pages/profile/profile";
 import { checkAuth } from "../../services/reducers/auth-slice";
 import { ProtectedRoute } from "../protected-route/protected-route";
-import { useAppDispatch } from "@/services/store";
+import { useAppDispatch, useAppSelector } from "@/services/store";
 import { Feed } from "@/pages/feed";
 import { Order } from "@/pages/order";
 import { totalOrderWithIngridientsSelector } from "@/services/reducers/order-slice";
@@ -34,8 +33,8 @@ import { OrderFullDetails } from "../order-full-details";
 
 export const App = () => {
   const dispatch = useAppDispatch();
-  const isLoading = useSelector(isLoadingSelector);
-  const isError = useSelector(isErrorSelector);
+  const isLoading = useAppSelector(isLoadingSelector);
+  const isError = useAppSelector(isErrorSelector);
 
   const location = useLocation();
   const backgroundLocation =
@@ -106,7 +105,9 @@ function OrderModalWrapper() {
   const navigate = useNavigate();
   const { orderNumber } = useParams();
 
-  const order = useSelector(totalOrderWithIngridientsSelector(Number(orderNumber)));
+  const order = useAppSelector(
+    totalOrderWithIngridientsSelector(Number(orderNumber))
+  );
 
   const handleClose = () => navigate(-1);
 
@@ -122,7 +123,7 @@ function OrderModalWrapper() {
 function ModalWrapper() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const ingredients = useSelector(allIngredientsSelector);
+  const ingredients = useAppSelector(allIngredientsSelector);
   const ingredient = ingredients.find((item) => item._id === id);
 
   const handleClose = () => navigate(-1);
@@ -130,7 +131,7 @@ function ModalWrapper() {
   if (!ingredient) return null;
 
   return (
-    <Modal isOpen={true} onClose={handleClose} >
+    <Modal isOpen={true} onClose={handleClose}>
       <IngredientsDetails
         selectedIngredient={ingredient}
         onClose={handleClose}

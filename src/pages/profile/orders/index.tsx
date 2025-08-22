@@ -1,8 +1,7 @@
 import { FC, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Cookies from "universal-cookie";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/services/store";
+import { useAppDispatch, useAppSelector } from "@/services/store";
 import {
   ordersConnect,
   ordersDisconnect,
@@ -16,7 +15,7 @@ const cookies = new Cookies(null, { path: "/" });
 export const Orders: FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const orders = useSelector(ordersSelector);
+  const orders = useAppSelector(ordersSelector);
 
   useEffect(() => {
     dispatch(

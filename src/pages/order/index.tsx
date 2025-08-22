@@ -4,16 +4,17 @@ import {
   getOrder,
   totalOrderWithIngridientsSelector,
 } from "@/services/reducers/order-slice";
-import { useAppDispatch } from "@/services/store";
+import { useAppDispatch, useAppSelector } from "@/services/store";
 import { FC, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 export const Order: FC = () => {
   const { orderNumber } = useParams();
   const dispatch = useAppDispatch();
 
-  const order = useSelector(totalOrderWithIngridientsSelector(Number(orderNumber)));
+  const order = useAppSelector(
+    totalOrderWithIngridientsSelector(Number(orderNumber))
+  );
 
   useEffect(() => {
     if (orderNumber) {

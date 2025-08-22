@@ -7,9 +7,8 @@ import {
   ordersAllResponseSelector,
   ordersAllSelector,
 } from "@/services/reducers/orders-all/slice";
-import { useAppDispatch } from "@/services/store";
+import { useAppDispatch, useAppSelector } from "@/services/store";
 import { FC, useEffect, useMemo } from "react";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./feed.module.css";
 
@@ -17,8 +16,8 @@ export const Feed: FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const ordersAllResponse = useSelector(ordersAllResponseSelector);
-  const ordersAll = useSelector(ordersAllSelector);
+  const ordersAllResponse = useAppSelector(ordersAllResponseSelector);
+  const ordersAll = useAppSelector(ordersAllSelector);
 
   useEffect(() => {
     dispatch(ordersAllConnect("wss://norma.nomoreparties.space/orders/all"));
@@ -47,7 +46,9 @@ export const Feed: FC = () => {
   const [pendCol1, pendCol2] = splitToCols(pending, 10);
 
   const total = (ordersAllResponse?.total ?? 0).toLocaleString("ru-RU");
-  const totalToday = (ordersAllResponse?.totalToday ?? 0).toLocaleString("ru-RU");
+  const totalToday = (ordersAllResponse?.totalToday ?? 0).toLocaleString(
+    "ru-RU"
+  );
 
   return (
     <section className={styles.feed}>
