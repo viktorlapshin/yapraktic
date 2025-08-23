@@ -1,7 +1,15 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from "@reduxjs/toolkit";
 import { BASE_URL } from "../../constants";
 import { checkResponse } from "../../utils/api";
-import { RootState } from "../types";
+import { type RootState } from "../types";
+import { Order, OrderWithIngredients} from "./orders-all/types";
+import { ordersAllResponseSelector } from "./orders-all/slice";
+import { ordersResponseSelector } from "./orders/slice";
+import { ingredientsMapSelector } from "./ingredients-slice";
 
 const sleep = (ms: number) =>
   new Promise((resolve) => {
@@ -28,6 +36,30 @@ export const sendOrder = createAsyncThunk<number, string[]>(
       const data = await checkResponse(response);
 
       return data.order.number;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      } else {
+        return rejectWithValue("Ошибка создания заказа");
+      }
+    }
+  }
+);
+
+export const getOrder = createAsyncThunk<Order | null, number>(
+  "order/getOrder",
+  async (orderNumber, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/orders/${orderNumber}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await checkResponse(response);
+
+      return data.orders?.[0] ?? null;
     } catch (error) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
@@ -66,16 +98,20 @@ export const sendOrder = createAsyncThunk<number, string[]>(
 //   }
 // );
 
-interface OrderState {
+export interface OrderState {
   orderNumber: number | null;
   loading: boolean;
   error: string | null;
+
+  selectedOrder: Order | null;
 }
 
 const initialState: OrderState = {
   orderNumber: null,
   loading: false,
   error: null,
+
+  selectedOrder: null,
 };
 
 const orderSlice = createSlice({
@@ -86,6 +122,9 @@ const orderSlice = createSlice({
       state.orderNumber = null;
       state.error = null;
       state.loading = false;
+    },
+    clearSelectedOrder: (state) => {
+      state.selectedOrder = null;
     },
   },
   extraReducers: (builder) => {
@@ -102,6 +141,9 @@ const orderSlice = createSlice({
       .addCase(sendOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? null;
+      })
+      .addCase(getOrder.fulfilled, (state, action) => {
+        state.selectedOrder = action.payload;
       });
   },
 });
@@ -110,7 +152,48 @@ export const orderNumberSelector = (state: RootState) =>
   state.order.orderNumber;
 export const isLoadingOrderSelector = (state: RootState) => state.order.loading;
 export const errorOrderSelector = (state: RootState) => state.order.error;
+export const orderSelector = (state: RootState) => state.order.selectedOrder;
+export const totalOrderSelector = (orderNumber: number) =>
+  createSelector(
+    orderSelector,
+    ordersAllResponseSelector,
+    ordersResponseSelector,
+    (order, ordersAllResponse, ordersResponse) => {
+      if (order) {
+        return order;
+      }
 
-export const { clearOrder } = orderSlice.actions;
+      const orderFromAll = ordersAllResponse?.orders.find(
+        (order) => order.number === orderNumber
+      );
+
+      if (orderFromAll) {
+        return orderFromAll;
+      }
+
+      const orderFromProfile = ordersResponse?.orders.find(
+        (order) => order.number === orderNumber
+      );
+
+      if (orderFromProfile) {
+        return orderFromProfile;
+      }
+
+      return null;
+    }
+  );
+
+export const totalOrderWithIngridientsSelector = (orderNumber: number) => createSelector(totalOrderSelector(orderNumber), ingredientsMapSelector, (order, ingredientsMap): OrderWithIngredients | null => {
+  if (order) {
+    return {
+      ...order,
+        ingredients: order.ingredients.map((ingredientId) => ingredientsMap[ingredientId])
+    }
+  }
+
+  return null
+})
+
+export const { clearOrder, clearSelectedOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;

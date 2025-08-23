@@ -6,19 +6,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import styles from "./profile.module.css";
-import { useSelector } from "react-redux";
 import { logout } from "../../services/reducers/auth-slice";
 import { getProfile, editProfile } from "../../services/reducers/profile-slice";
 import { userSelector } from "../../services/reducers/profile-slice";
-import { useAppDispatch } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../services/store";
+import { Orders } from "./orders";
 
-// Типизация пользователя
 interface IUser {
   name: string;
   email: string;
 }
 
-// Типизация вкладок
 type TabType = "profile" | "orders" | "logout";
 
 export const Profile: React.FC = () => {
@@ -32,7 +30,7 @@ export const Profile: React.FC = () => {
   const [initialLogin, setInitialLogin] = useState<string>("");
 
   const dispatch = useAppDispatch();
-  const user = useSelector(userSelector) as IUser | null;
+  const user = useAppSelector(userSelector) as IUser | null;
 
   useEffect(() => {
     dispatch(getProfile());
@@ -82,47 +80,56 @@ export const Profile: React.FC = () => {
         </Tab>
         <p>В этом разделе вы можете изменить свои персональные данные</p>
       </div>
-      <form
-        className={styles.right_block}
-        onSubmit={(event: FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          dispatch(editProfile({ name, email: login, password }));
-        }}
-      >
-        <Input
-          placeholder="Имя"
-          value={name}
-          icon="EditIcon"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-        />
-        <Input
-          placeholder="Логин"
-          value={login}
-          icon="EditIcon"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setLogin(e.target.value)}
-        />
-        <Input
-          placeholder="Пароль"
-          value={password}
-          icon="EditIcon"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-        />
-        {isChanged && (
-          <div className={styles.button_block}>
-            <Link
-              to="#"
-              onClick={() => {
-                setName(initialName);
-                setLogin(initialLogin);
-                setPassword("");
-              }}
-            >
-              Отмена
-            </Link>
-            <Button htmlType="submit">Сохранить</Button>
-          </div>
-        )}
-      </form>
+      {activeTab === "profile" && (
+        <form
+          className={styles.right_block}
+          onSubmit={(event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            dispatch(editProfile({ name, email: login, password }));
+          }}
+        >
+          <Input
+            placeholder="Имя"
+            value={name}
+            icon="EditIcon"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
+          />
+          <Input
+            placeholder="Логин"
+            value={login}
+            icon="EditIcon"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setLogin(e.target.value)
+            }
+          />
+          <Input
+            placeholder="Пароль"
+            value={password}
+            icon="EditIcon"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
+          />
+          {isChanged && (
+            <div className={styles.button_block}>
+              <Link
+                to="#"
+                onClick={() => {
+                  setName(initialName);
+                  setLogin(initialLogin);
+                  setPassword("");
+                }}
+              >
+                Отмена
+              </Link>
+              <Button htmlType="submit">Сохранить</Button>
+            </div>
+          )}
+        </form>
+      )}
+      {activeTab === "orders" && <Orders />}
     </div>
   );
 };

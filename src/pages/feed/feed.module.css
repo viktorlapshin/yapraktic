@@ -1,0 +1,239 @@
+:root {
+  --bg: #0b0b0f; /* общий фон экрана */
+  --panel: #15151b; /* панели/карточки */
+  --text: #f2f2f3; /* основной текст */
+  --muted: #a1a6b3; /* вторичный текст */
+  --accent: #00d0d0; /* «Готовы» — бирюза */
+  --pending: #e5e7eb; /* «В работе» */
+  --divider: #2a2b36; /* вертикальный разделитель */
+  --glow-1: #c9d6ff; /* свечение — внешний */
+  /*--glow-2: #8ab4ff;  свечение — внутренний */
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 0 40px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+  margin: 0 0 20px;
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: stretch;
+}
+
+.grid::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: var(--divider);
+  border-radius: 2px;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.sidebar {
+  align-self: stretch;
+  min-height: 100%;
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-left: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(100vh - 180px);
+  overflow: auto;
+  padding-right: 8px;
+  scroll-behavior: smooth;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+.list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+}
+.list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+}
+.list {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.orderLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 0;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 8px 20px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
+}
+
+.orderLink:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.sidebar {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-left: 16px;
+}
+
+.statusBlock {
+  background: transparent;
+  border-radius: 12px;
+}
+
+.subTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 0 0 12px;
+  letter-spacing: 0.2px;
+}
+
+.numbersGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.numbersCol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.numberDone,
+.numberPending {
+  font-family: "Iceland";
+  font-size: 22px;
+  letter-spacing: 0.6px;
+}
+
+.numberDone {
+  color: var(--accent);
+  font-weight: 800;
+  text-shadow:
+    0 0 6px rgba(0, 208, 208, 0.5),
+    0 0 14px rgba(0, 208, 255, 0.35);
+}
+
+.numberPending {
+  color: var(--pending);
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.totalBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.totalNumber {
+  font-family: "Iceland";
+  font-size: 120px;
+  font-weight: 400;
+  letter-spacing: 6px;
+  line-height: 1.05;
+  white-space: nowrap;
+  color: #eaf0ff;
+  text-shadow:
+    0 0 12px var(--glow-2),
+    0 0 26px var(--glow-2),
+    0 0 48px var(--glow-1),
+    0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .grid::after {
+    display: none;
+  }
+  .sidebar {
+    position: static;
+    order: -1;
+    padding-left: 0;
+  }
+  .list {
+    max-height: none;
+    padding-right: 0;
+  }
+  .totalNumber {
+    font-size: 64px;
+    letter-spacing: 4px;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 28px;
+  }
+  .subTitle {
+    font-size: 18px;
+  }
+  .numbersGrid {
+    gap: 12px;
+  }
+  .totalNumber {
+    font-size: 48px;
+    letter-spacing: 3px;
+  }
+}

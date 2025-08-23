@@ -1,15 +1,16 @@
 import {
   createSlice,
   createAsyncThunk,
+  createSelector,
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { BASE_URL } from "../../constants";
 import { checkResponse } from "@/utils/api";
 import { Ingridient, UniqueIngridient, Move } from "@/types";
-import { RootState } from "../types";
+import { type RootState } from "../types";
 
-interface IngridientsState {
+export interface IngridientsState {
   allIngredients: Ingridient[];
   bunIngredient?: Ingridient;
   ingredients: UniqueIngridient[];
@@ -21,7 +22,7 @@ const initialState: IngridientsState = {
   allIngredients: [],
   bunIngredient: undefined,
   ingredients: [],
-  isLoading: false,
+  isLoading: true,
   isError: false,
 };
 
@@ -95,5 +96,15 @@ export const isLoadingSelector = (store: RootState) =>
   store.ingredientsSlice.isLoading;
 export const isErrorSelector = (store: RootState) =>
   store.ingredientsSlice.isError;
+
+export const ingredientsMapSelector = createSelector(
+  allIngredientsSelector,
+  (allIngredients) =>
+    allIngredients.reduce<Record<string, Ingridient>>((accumulate, ingredient) => {
+      accumulate[ingredient._id] = ingredient;
+
+      return accumulate;
+    }, {})
+);
 
 export default ingredientsSlice.reducer;

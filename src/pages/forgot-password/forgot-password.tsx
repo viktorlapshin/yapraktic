@@ -5,19 +5,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./forgot-password.module.css";
-import { useSelector } from "react-redux";
 import {
   passwordReset,
   passwordResetStatusSelector,
   authSlice,
 } from "../../services/reducers/auth-slice";
-import { useAppDispatch } from "@/services/store";
+import { useAppDispatch, useAppSelector } from "@/services/store";
 
 export const Forgot = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = React.useState("");
   const navigate = useNavigate();
-  const status = useSelector(passwordResetStatusSelector);
+  const status = useAppSelector(passwordResetStatusSelector);
 
   React.useEffect(() => {
     if (status === "fulfilled") {

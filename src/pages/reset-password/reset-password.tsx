@@ -5,13 +5,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./reset-password.module.css";
-import { useSelector } from "react-redux";
 import {
   passwordRecoveryStatusSelector,
   passwordRecovery,
   authSlice,
 } from "../../services/reducers/auth-slice";
-import { useAppDispatch } from "@/services/store";
+import { useAppDispatch, useAppSelector } from "@/services/store";
 
 export const ForgotTwo = () => {
   const [password, setPassword] = React.useState("");
@@ -19,7 +18,7 @@ export const ForgotTwo = () => {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const status = useSelector(passwordRecoveryStatusSelector);
+  const status = useAppSelector(passwordRecoveryStatusSelector);
 
   React.useEffect(() => {
     if (status === "fulfilled") {

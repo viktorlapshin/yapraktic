@@ -2,14 +2,14 @@ import React, { useEffect, ReactNode } from "react";
 import ReactDOM from "react-dom";
 import styles from "./modal.module.css";
 
-// 1. Описываем интерфейс пропсов
+
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
 }
 
-// 2. Используем интерфейс в компоненте
+
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   useEffect(() => {
     if (!isOpen) return;
@@ -31,7 +31,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     return null;
   }
 
-  // 3. Проверяем, что элемент существует (TypeScript safety)
+
   const modalRoot = document.getElementById("modal-root");
   if (!modalRoot) return null;
 

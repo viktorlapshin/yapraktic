@@ -1,5 +1,3 @@
-// button-order.tsx
-
 import { useState, FC } from "react";
 import styles from "./button-order.module.css";
 import { Modal } from "../modal/modal";
@@ -8,7 +6,6 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
 import {
   bunIngredientsSelector,
   ingredientsSelector,
@@ -23,7 +20,7 @@ import {
   clearOrder,
 } from "../../services/reducers/order-slice";
 import { Preloader } from "../preloader/preloader";
-import { useAppDispatch } from "../../services/store"; // <= путь до store
+import { useAppDispatch, useAppSelector } from "../../services/store";
 
 interface Ingredient {
   _id: string;
@@ -39,13 +36,13 @@ interface ButtonOrderProps {
 export const ButtonOrder: FC<ButtonOrderProps> = ({ text }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const isLoading = useSelector(isLoadingOrderSelector) as boolean;
-  const orderNumber = useSelector(orderNumberSelector) as number | null;
-  const error = useSelector(errorOrderSelector) as string | null;
+  const isLoading = useAppSelector(isLoadingOrderSelector) as boolean;
+  const orderNumber = useAppSelector(orderNumberSelector) as number | null;
+  const error = useAppSelector(errorOrderSelector) as string | null;
 
-  const ingredients = useSelector(ingredientsSelector) as Ingredient[];
-  const bun = useSelector(bunIngredientsSelector) as Ingredient | null;
-  const authStatus = useSelector(authStatusSelector) as AuthStatus;
+  const ingredients = useAppSelector(ingredientsSelector) as Ingredient[];
+  const bun = useAppSelector(bunIngredientsSelector) as Ingredient | null;
+  const authStatus = useAppSelector(authStatusSelector) as AuthStatus;
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

@@ -29,7 +29,6 @@
 }
 
 .top_bun {
-  /* max-width: 536px; */
   height: 80px;
   background: var(--background-element);
   border-radius: 80px 80px 40px 40px;
@@ -51,7 +50,6 @@
 }
 
 .bottom_bun {
-  /* max-width: 536px; */
   margin-left: 25px;
   height: 80px;
   background: var(--background-element);

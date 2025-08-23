@@ -5,18 +5,20 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, DragPreviewImage } from "react-dnd";
-import { useSelector } from "react-redux";
 import {
   ingredientsSelector,
   bunIngredientsSelector,
 } from "../../services/reducers/ingredients-slice";
 import { Ingridient } from "@/types";
+import { useAppSelector } from "@/services/store";
 
 interface BurgerIngredienstItemProps {
-  ingredient: Ingridient
+  ingredient: Ingridient;
 }
 
-export const BurgerIngredienstItem: FC<BurgerIngredienstItemProps> = ({ ingredient }) => {
+export const BurgerIngredienstItem: FC<BurgerIngredienstItemProps> = ({
+  ingredient,
+}) => {
   const [_, drag, dragPreview] = useDrag(() => ({
     type: ingredient.type === "bun" ? "bun" : "ingredient",
     item: ingredient,
@@ -25,8 +27,8 @@ export const BurgerIngredienstItem: FC<BurgerIngredienstItemProps> = ({ ingredie
     }),
   }));
 
-  const allIngredients = useSelector(ingredientsSelector);
-  const bun = useSelector(bunIngredientsSelector);
+  const allIngredients = useAppSelector(ingredientsSelector);
+  const bun = useAppSelector(bunIngredientsSelector);
 
   let count = 0;
   if (ingredient.type === "bun") {

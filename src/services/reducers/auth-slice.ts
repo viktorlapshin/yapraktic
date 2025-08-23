@@ -3,12 +3,12 @@ import { checkResponse } from "@/utils/api";
 import { BASE_URL } from "../../constants";
 import Cookies from "universal-cookie";
 import { getProfile } from "./profile-slice";
-import { RootState } from "../types";
+import { type RootState } from "../types";
 import { LoadingState } from "@/types";
 
 const cookies = new Cookies(null, { path: "/" });
 
-interface AuthState {
+export interface AuthState {
   passwordResetStatus: LoadingState;
   passwordRecoveryStatus: LoadingState;
   authStatus: LoadingState;

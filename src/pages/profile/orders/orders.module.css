@@ -1,0 +1,91 @@
+.page {
+  display: flex;
+  gap: 40px;
+  padding: 48px;
+  background: #0f0e11;
+  min-height: calc(100vh - 80px);
+  color: #d8d7e3;
+}
+
+.sidebar {
+  width: 260px;
+  padding-left: 24px;
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.title {
+  font-weight: 700;
+  color: #aba7c6;
+  margin-bottom: 8px;
+}
+
+.link {
+  color: #e6e6ea;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #cfcfe5;
+}
+
+.linkActive {
+  color: #8b87ff;
+}
+
+.hint {
+  margin-top: 28px;
+  color: #8f8ea3;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 220px;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.list {
+  width: 720px;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  padding-right: 12px;
+}
+
+.linkCard {
+  text-decoration: none;
+  display: block;
+}
+
+.linkCard + .linkCard {
+  margin-top: 24px;
+}
+
+.list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6f6bf5, #8b87ff);
+  border-radius: 3px;
+}
+
+.list {
+  scrollbar-width: thin;
+  scrollbar-color: #8b87ff transparent;
+}
