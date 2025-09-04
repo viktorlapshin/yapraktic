@@ -34,5 +34,5 @@
 	"plugins": [{ "name": "typescript-plugin-css-modules" }],
 	"include": ["src"],
 	"references": [{ "path": "./tsconfig.node.json" }],
-	"types": ["@testing-library/jest-dom"]
+	"types": ["@testing-library/jest-dom", "cypress", "@4tw/cypress-drag-drop"]
 }

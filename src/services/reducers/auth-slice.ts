@@ -14,7 +14,7 @@ export interface AuthState {
   authStatus: LoadingState;
 }
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   passwordResetStatus: "pending",
   passwordRecoveryStatus: "pending",
   authStatus: "pending",
