@@ -9,7 +9,7 @@ export interface OrdersAllState {
   ordersResponse: OrderResponse | null;
 }
 
-const initialState: OrdersAllState = {
+export const initialState: OrdersAllState = {
   ordersResponse: null,
 };
 

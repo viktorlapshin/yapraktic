@@ -6,7 +6,7 @@ import {
 import { BASE_URL } from "../../constants";
 import { checkResponse } from "../../utils/api";
 import { type RootState } from "../types";
-import { Order, OrderWithIngredients} from "./orders-all/types";
+import { Order, OrderWithIngredients } from "./orders-all/types";
 import { ordersAllResponseSelector } from "./orders-all/slice";
 import { ordersResponseSelector } from "./orders/slice";
 import { ingredientsMapSelector } from "./ingredients-slice";
@@ -106,7 +106,7 @@ export interface OrderState {
   selectedOrder: Order | null;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   orderNumber: null,
   loading: false,
   error: null,
@@ -183,16 +183,23 @@ export const totalOrderSelector = (orderNumber: number) =>
     }
   );
 
-export const totalOrderWithIngridientsSelector = (orderNumber: number) => createSelector(totalOrderSelector(orderNumber), ingredientsMapSelector, (order, ingredientsMap): OrderWithIngredients | null => {
-  if (order) {
-    return {
-      ...order,
-        ingredients: order.ingredients.map((ingredientId) => ingredientsMap[ingredientId])
-    }
-  }
+export const totalOrderWithIngridientsSelector = (orderNumber: number) =>
+  createSelector(
+    totalOrderSelector(orderNumber),
+    ingredientsMapSelector,
+    (order, ingredientsMap): OrderWithIngredients | null => {
+      if (order) {
+        return {
+          ...order,
+          ingredients: order.ingredients.map(
+            (ingredientId) => ingredientsMap[ingredientId]
+          ),
+        };
+      }
 
-  return null
-})
+      return null;
+    }
+  );
 
 export const { clearOrder, clearSelectedOrder } = orderSlice.actions;
 

@@ -18,6 +18,7 @@ export const OrderDetails: FC<OrderDetailsProps> = ({
         onClick={onClose}
         aria-label="Закрыть"
         type="button"
+        data-testid="close-button"
       >
         <CloseIcon type="primary" />
       </button>

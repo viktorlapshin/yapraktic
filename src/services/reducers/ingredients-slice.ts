@@ -18,7 +18,7 @@ export interface IngridientsState {
   isError: boolean;
 }
 
-const initialState: IngridientsState = {
+export const initialState: IngridientsState = {
   allIngredients: [],
   bunIngredient: undefined,
   ingredients: [],
@@ -100,11 +100,14 @@ export const isErrorSelector = (store: RootState) =>
 export const ingredientsMapSelector = createSelector(
   allIngredientsSelector,
   (allIngredients) =>
-    allIngredients.reduce<Record<string, Ingridient>>((accumulate, ingredient) => {
-      accumulate[ingredient._id] = ingredient;
+    allIngredients.reduce<Record<string, Ingridient>>(
+      (accumulate, ingredient) => {
+        accumulate[ingredient._id] = ingredient;
 
-      return accumulate;
-    }, {})
+        return accumulate;
+      },
+      {}
+    )
 );
 
 export default ingredientsSlice.reducer;

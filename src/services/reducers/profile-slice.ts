@@ -11,7 +11,7 @@ export interface ProfileState {
   user: User | null;
 }
 
-const initialState: ProfileState = {
+export const initialState: ProfileState = {
   user: null,
 };
 
