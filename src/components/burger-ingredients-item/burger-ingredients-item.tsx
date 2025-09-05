@@ -45,7 +45,11 @@ export const BurgerIngredienstItem: FC<BurgerIngredienstItemProps> = ({
         src={ingredient.image}
         connect={dragPreview}
       />
-      <div ref={drag} className={styles.container_ingridient}>
+      <div
+        ref={drag}
+        className={styles.container_ingridient}
+        data-cy="burger-ingredient-item"
+      >
         {count > 0 && <Counter count={count} extraClass="" />}
         <img src={ingredient.image} alt={ingredient.name} />
         <h3 className={styles.price}>

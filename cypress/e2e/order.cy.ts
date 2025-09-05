@@ -2,34 +2,34 @@
 
 import "@4tw/cypress-drag-drop";
 
-const email = "example6@mail.com";
+const email = "example22226@mail.com";
 
 describe("template spec", () => {
   it("passes", () => {
     cy.visit("/");
 
-    cy.get("._link_position_last_1srpi_28 > .text").click();
-    cy.get(":nth-child(5) > a").click();
+    cy.get('[data-cy="profile-header-link"]').click();
+    cy.get('[data-cy="login-register-link"]').click();
 
-    cy.get(":nth-child(2) > .input").type(`login`);
-    cy.get(":nth-child(3) > .input").type(`${email}`);
-    cy.get(":nth-child(4) > .input").type(`password{enter}`);
+    cy.get('[data-cy="register-name-input"]').type(`login`);
+    cy.get('[data-cy="register-email-input"]').type(`${email}`);
+    cy.get('[data-cy="register-password-input"]').type(`password{enter}`);
 
     cy.wait(300);
 
-    cy.get(
-      ":nth-child(2) > :nth-child(2) > ._container_ingridient_6pgrb_1"
-    ).drag("._top_bun_lcx4c_31");
+    cy.get('[data-cy="burger-ingredient-item"]')
+      .first()
+      .drag('[data-cy="bun-constructor-ingredients-item"]');
 
-    cy.get(
-      ":nth-child(4) > :nth-child(2) > ._container_ingridient_6pgrb_1"
-    ).drag("._filling_lcx4c_41");
+    cy.get('[data-cy="burger-ingredients-item"]')
+      .eq(3)
+      .drag('[data-cy="burger-constructor-drop-ingredient"]');
 
-    cy.get(".button").click();
+    cy.get('[data-cy="button-order"]').click();
 
     cy.wait(15_000);
 
-    cy.get("._order_number_bbsrs_10").should((element) => {
+    cy.get('[data-cy="order-details-number"]').should((element) => {
       expect(element.text()).to.not.empty;
     });
   });

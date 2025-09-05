@@ -34,6 +34,7 @@ export const IngredientsDetails: React.FC<IngredientsDetailsProps> = ({
           onClick={onClose}
           aria-label="Закрыть"
           type="button"
+          data-cy="ingredients-details-close-button"
         >
           <CloseIcon type="primary" />
         </button>

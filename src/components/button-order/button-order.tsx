@@ -80,6 +80,7 @@ export const ButtonOrder: FC<ButtonOrderProps> = ({ text }) => {
         onClick={handleOrder}
         htmlType="button"
         disabled={ingredientIds.length < 3 || isLoading}
+        data-cy="button-order"
       >
         {isLoading ? "Оформляем..." : text}
       </Button>

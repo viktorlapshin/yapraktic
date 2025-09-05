@@ -8,18 +8,28 @@ import {
 import { useLocation, Link } from "react-router-dom";
 
 export const AppHeader = () => {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <header className={styles.header}>
       <nav className={`${styles.menu} p-4`}>
         <div className={styles.menu_part_left}>
-          <Link to="/" className={`${styles.link} ${location.pathname === '/' && styles.link_active}`}>
-            <BurgerIcon type={location.pathname === '/' ? "primary" : 'secondary'} />
+          <Link
+            to="/"
+            className={`${styles.link} ${location.pathname === "/" && styles.link_active}`}
+          >
+            <BurgerIcon
+              type={location.pathname === "/" ? "primary" : "secondary"}
+            />
             <p className="text text_type_main-default ml-2">Конструктор</p>
           </Link>
-          <Link to="/feed" className={`${styles.link} ml-10 ${location.pathname === '/feed' && styles.link_active}`}>
-            <ListIcon type={location.pathname === '/feed' ? "primary" : 'secondary'} />
+          <Link
+            to="/feed"
+            className={`${styles.link} ml-10 ${location.pathname === "/feed" && styles.link_active}`}
+          >
+            <ListIcon
+              type={location.pathname === "/feed" ? "primary" : "secondary"}
+            />
             <p className="text text_type_main-default ml-2">Лента заказов</p>
           </Link>
         </div>
@@ -28,10 +38,17 @@ export const AppHeader = () => {
         </div>
         <Link
           to="/profile"
-          className={`${styles.link} ${styles.link_position_last} ${location.pathname === '/profile' && styles.link_active}`}
+          className={`${styles.link} ${styles.link_position_last} ${location.pathname === "/profile" && styles.link_active}`}
         >
-          <ProfileIcon type={location.pathname === '/profile' ? "primary" : 'secondary'} />
-          <p className="text text_type_main-default ml-2">Личный кабинет</p>
+          <ProfileIcon
+            type={location.pathname === "/profile" ? "primary" : "secondary"}
+          />
+          <p
+            className="text text_type_main-default ml-2"
+            data-cy="profile-header-link"
+          >
+            Личный кабинет
+          </p>
         </Link>
       </nav>
     </header>

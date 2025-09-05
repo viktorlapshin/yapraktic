@@ -27,6 +27,7 @@ exports[`Header component should be equal to snapshot 1`] = `
     </button>
     <p
       class="order_number"
+      data-cy="order-details-number"
     >
       123
     </p>

@@ -20,7 +20,7 @@ export const Login = () => {
       <form
         className={styles.login_block}
         onSubmit={(event) => {
-          event.preventDefault()
+          event.preventDefault();
 
           dispatch(login({ email, password }))
             .unwrap()
@@ -45,7 +45,9 @@ export const Login = () => {
         <Button htmlType="submit">Войти</Button>
         <p>
           Вы - новый пользователь?{" "}
-          <Link to="/register">Зарегистрироваться</Link>
+          <Link to="/register" data-cy="login-register-link">
+            Зарегистрироваться
+          </Link>
         </p>
         <p>
           Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link>
