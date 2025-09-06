@@ -22,7 +22,9 @@ export const OrderDetails: FC<OrderDetailsProps> = ({
       >
         <CloseIcon type="primary" />
       </button>
-      <p className={styles.order_number}>{orderNumber ? orderNumber : "—"}</p>
+      <p className={styles.order_number} data-cy="order-details-number">
+        {orderNumber ? orderNumber : "—"}
+      </p>
       <p className={`${styles.title} text text_type_main-large`}>
         идентификатор заказа
       </p>

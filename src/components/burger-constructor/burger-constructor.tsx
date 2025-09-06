@@ -48,6 +48,7 @@ const BunConstructorIngredientsItem: FC<BunConstructorIngredientsItemProps> = ({
             : undefined,
       }}
       className={styles[`${type}_bun`]}
+      data-cy="bun-constructor-ingredients-item"
     >
       {ingredient ? (
         <ConstructorElement
@@ -170,7 +171,11 @@ export const BurgerConstructor = () => {
       <div className={styles.burger_consructor_list}>
         <BunConstructorIngredientsItem type="top" ingredient={bunIngredient} />
 
-        <ul ref={drop} className={styles.list_food}>
+        <ul
+          ref={drop}
+          className={styles.list_food}
+          data-cy="burger-constructor-drop-ingredient"
+        >
           {otherIngredients.length === 0 ? (
             <div
               className={styles.filling}

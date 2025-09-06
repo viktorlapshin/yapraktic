@@ -31,24 +31,31 @@ export const Register = () => {
 
   return (
     <div className={styles.centered_container}>
-      <form className={styles.register_block} onSubmit={(event) => {
-        event.preventDefault()
-        handleRegister()
-      }}>
+      <form
+        className={styles.register_block}
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleRegister();
+        }}
+      >
         <h2>Регистрация</h2>
         <Input
+          data-cy="register-name-input"
           placeholder="Имя"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} />
+        <EmailInput
+          data-cy="register-email-input"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <PasswordInput
+          data-cy="register-password-input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button htmlType="submit">
-          Зарегистрироваться
-        </Button>
+        <Button htmlType="submit">Зарегистрироваться</Button>
         <p>
           Уже зарегистрированы? <Link to="/login">Войти</Link>
         </p>

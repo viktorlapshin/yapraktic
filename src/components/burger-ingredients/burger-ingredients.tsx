@@ -116,6 +116,7 @@ export const BurgerIngredients = () => {
                 key={ingredient._id}
                 className={styles.ingredient_list_point}
                 onClick={() => handleOpenModal(ingredient)}
+                data-cy="burger-ingredients-item"
               >
                 <BurgerIngredienstItem ingredient={ingredient} />
               </li>
@@ -131,6 +132,7 @@ export const BurgerIngredients = () => {
                 key={ingredient._id}
                 className={styles.ingredient_list_point}
                 onClick={() => handleOpenModal(ingredient)}
+                data-cy="burger-ingredients-item"
               >
                 <BurgerIngredienstItem ingredient={ingredient} />
               </li>
@@ -146,6 +148,7 @@ export const BurgerIngredients = () => {
                 key={ingredient._id}
                 className={styles.ingredient_list_point}
                 onClick={() => handleOpenModal(ingredient)}
+                data-cy="burger-ingredients-item"
               >
                 <BurgerIngredienstItem ingredient={ingredient} />
               </li>
